@@ -18,9 +18,8 @@ export default function Home() {
 					href='/favicon.png'
 				/>
 			</Head>
-			<main>
-				<h1 className='text-3xl font-light underline'>Hello world!</h1>
-			</main>
+
+			<h1 className='text-3xl font-light text-pureWhite'>Hello world!</h1>
 		</>
 	)
 }
