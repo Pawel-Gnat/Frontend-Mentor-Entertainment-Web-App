@@ -25,7 +25,7 @@ function Layout(props: Props) {
 				/>
 			</Head>
 			<Navigation />
-			<main className='bg-darkBlue'>{props.children}</main>
+			<main className='px-[1.6rem] bg-darkBlue'>{props.children}</main>
 		</>
 	)
 }

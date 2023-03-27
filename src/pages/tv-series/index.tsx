@@ -1,7 +1,9 @@
+import { Searchbar } from '../../components/ui/Searchbar'
+
 export default function TvSeriesPage() {
 	return (
 		<>
-			<h1 className='text-3xl font-light text-pureWhite'>TV-series page</h1>
+			<Searchbar placeholder='Search for TV series' />
 		</>
 	)
 }

@@ -1,7 +1,9 @@
-export default function TvSeriesPage() {
+import { Searchbar } from '../../components/ui/Searchbar'
+
+export default function BookmarkedPage() {
 	return (
 		<>
-			<h1 className='text-3xl font-light text-pureWhite'>Bookmarked page</h1>
+			<Searchbar placeholder='Search for bookmarked shows' />
 		</>
 	)
 }
