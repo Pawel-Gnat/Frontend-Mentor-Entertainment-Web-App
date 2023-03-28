@@ -30,7 +30,7 @@ export const Searchbar = (props: Props) => {
 				className='visually-hidden'>
 				Searchbar
 			</label>
-			<div className='flex flex-row gap-[1.6rem] pt-[2.4rem] pb-[1.9rem]'>
+			<div className='flex flex-row gap-[1.6rem] pt-[2.4rem]'>
 				<Image
 					src='/assets/icons/icon-search.svg'
 					width={24}
@@ -42,7 +42,7 @@ export const Searchbar = (props: Props) => {
 				<input
 					name='searchbar'
 					type='text'
-					className='text-[1.6rem] font-light grow pb-[0.5rem] border-b border-transparent bg-inherit text-pureWhite caret-lightRed focus:border-greyishBlue focus:outline-none placeholder:text-pureWhite placeholder:opacity-40'
+					className='text-[1.6rem] font-light grow pb-[0.5rem] border-b border-transparent bg-inherit text-pureWhite caret-lightRed focus:border-greyishBlue focus:outline-none placeholder:text-pureWhite placeholder:opacity-40 cursor-pointer'
 					placeholder={props.placeholder}
 					ref={inputRef}
 					onChange={Search}
