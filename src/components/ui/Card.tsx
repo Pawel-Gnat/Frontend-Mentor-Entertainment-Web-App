@@ -17,12 +17,26 @@ export const Card = (props: Props) => {
 
 	return (
 		<div>
-			<div className='relative w-max rounded-[0.8rem] overflow-hidden cursor-pointer'>
+			<div className='relative w-full rounded-[0.8rem] overflow-hidden cursor-pointer'>
 				<Image
 					src={regular.small}
-					priority
 					width={164}
 					height={110}
+					className='w-full md:hidden'
+					alt={title}
+				/>
+				<Image
+					src={regular.medium}
+					width={164}
+					height={110}
+					className='hidden w-full md:inline-flex lg:hidden'
+					alt={title}
+				/>
+				<Image
+					src={regular.large}
+					width={164}
+					height={110}
+					className='hidden w-full lg:inline-flex'
 					alt={title}
 				/>
 				<button
@@ -40,7 +54,7 @@ export const Card = (props: Props) => {
 					/>
 				</button>
 			</div>
-			<div className='flex gap-[0.5rem] text-[1.1rem] font-light text-pureWhite mt-[0.8rem] opacity-75 '>
+			<div className='flex gap-[0.5rem] text-card-text font-light text-pureWhite mt-[0.8rem] opacity-75 '>
 				<span className='cursor-default'>{year}</span>
 				&bull;
 				<Image
@@ -54,7 +68,7 @@ export const Card = (props: Props) => {
 				<span className='cursor-default'>{category}</span>
 				&bull;<span className='cursor-default'>{rating}</span>
 			</div>
-			<strong className='text-[1.4rem] font-medium text-pureWhite cursor-default'>{title}</strong>
+			<strong className='text-card-title font-medium text-pureWhite cursor-default'>{title}</strong>
 		</div>
 	)
 }
