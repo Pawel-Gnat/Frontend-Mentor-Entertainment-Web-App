@@ -1,10 +1,11 @@
-import { getRecommendedShows } from '../lib/data-utils'
+import { getRecommendedShows, getTrendingShows } from '../lib/data-utils'
 import { useEffect, useState } from 'react'
 import { Searchbar } from '../components/ui/Searchbar'
 import { CardsList } from '../components/ui/CardsList'
 import { Heading } from '../components/ui/Heading'
+import { TrendingCardsList } from '@/components/ui/TrendingCardsList'
 
-type Shows = {
+type RecommendedShows = {
 	title: string
 	thumbnail: {
 		trending?: {
@@ -23,22 +24,48 @@ type Shows = {
 	isTrending: boolean
 }
 
+type TrendingShows = {
+	title: string
+	thumbnail: {
+		trending: {
+			small: string
+			large: string
+		}
+		regular: {
+			small: string
+			medium: string
+			large: string
+		}
+	}
+	year: number
+	category: string
+	rating: string
+	isTrending: boolean
+}
+
 type Props = {
-	data: Shows[]
+	trendingShowsData: TrendingShows[]
+	recommendedShowsData: RecommendedShows[]
 }
 
 export default function HomePage(props: Props) {
-	const { data } = props
-	const [recommendedShows, setRecommendedShows] = useState<Shows[]>([])
+	const { trendingShowsData, recommendedShowsData } = props
+	const [recommendedShows, setRecommendedShows] = useState<RecommendedShows[]>([])
+	const [trendingShows, setTrendingShows] = useState<TrendingShows[]>([])
 
 	useEffect(() => {
-		setRecommendedShows(data)
-	}, [data])
+		setTrendingShows(trendingShowsData)
+	}, [trendingShows, trendingShowsData])
+
+	useEffect(() => {
+		setRecommendedShows(recommendedShowsData)
+	}, [recommendedShows, recommendedShowsData])
 
 	return (
 		<>
 			<Searchbar placeholder='Search for movies or TV series' />
 			<Heading content='Trending' />
+			<TrendingCardsList cards={trendingShows} />
 			<Heading content='Recommended for you' />
 			<CardsList cards={recommendedShows} />
 		</>
@@ -48,7 +75,8 @@ export default function HomePage(props: Props) {
 export async function getStaticProps() {
 	return {
 		props: {
-			data: getRecommendedShows(),
+			trendingShowsData: getTrendingShows(),
+			recommendedShowsData: getRecommendedShows(),
 		},
 	}
 }

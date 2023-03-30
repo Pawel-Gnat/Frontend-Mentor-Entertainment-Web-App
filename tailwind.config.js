@@ -19,6 +19,8 @@ module.exports = {
 			fontSize: {
 				heading: 'clamp(2rem, 3vw, 3.2rem)',
 				input: 'clamp(1.6rem, 3vw, 2.4rem)',
+				'trending-title': 'clamp(1.5rem, 3vw, 2.4rem)',
+				'trending-text': 'clamp(1.2rem, 3vw, 1.5rem)',
 				'card-title': 'clamp(1.4rem, 3vw, 1.8rem)',
 				'card-text': 'clamp(1.1rem, 3vw, 1.3rem)',
 			},

@@ -15,7 +15,7 @@ export const TrendingCard = (props: Props) => {
 	const { year, category, rating, title, trending } = props
 
 	return (
-		<div className='relative w-full rounded-[0.8rem] overflow-hidden cursor-pointer'>
+		<div className='relative w-[24rem] rounded-[0.8rem] overflow-hidden cursor-pointer'>
 			<Image
 				src={trending.small}
 				width={240}
@@ -46,14 +46,14 @@ export const TrendingCard = (props: Props) => {
 				/>
 			</button>
 
-			<div>
-				<div className='flex gap-[0.5rem] text-card-text font-light text-pureWhite mt-[0.8rem] opacity-75 '>
+			<div className='absolute bottom-[1.6rem] left-[1.6rem]'>
+				<div className='flex gap-[0.8rem] text-trending-text font-light text-pureWhite mt-[0.8rem] opacity-75 '>
 					<span className='cursor-default'>{year}</span>
 					&bull;
 					<Image
 						src={category === 'Movies' ? '/assets/icons/icon-category-movie.svg' : '/assets/icons/icon-category-tv.svg'}
-						width={10}
-						height={10}
+						width={12}
+						height={12}
 						className='aspect-square my-auto'
 						alt=''
 						aria-hidden='true'
@@ -61,7 +61,7 @@ export const TrendingCard = (props: Props) => {
 					<span className='cursor-default'>{category}</span>
 					&bull;<span className='cursor-default'>{rating}</span>
 				</div>
-				<strong className='text-card-title font-medium text-pureWhite cursor-default'>{title}</strong>
+				<strong className='text-trending-title font-medium text-pureWhite cursor-default'>{title}</strong>
 			</div>
 		</div>
 	)
