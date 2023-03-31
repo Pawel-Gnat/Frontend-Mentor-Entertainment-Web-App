@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { Searchbar } from '../components/ui/Searchbar'
 import { CardsList } from '../components/ui/CardsList'
 import { Heading } from '../components/ui/Heading'
-import { TrendingCardsList } from '@/components/ui/TrendingCardsList'
+import TrendingCardsList from '../components/ui/TrendingCardsList'
 
 type RecommendedShows = {
 	title: string

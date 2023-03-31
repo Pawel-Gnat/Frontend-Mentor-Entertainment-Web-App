@@ -15,19 +15,17 @@ export const TrendingCard = (props: Props) => {
 	const { year, category, rating, title, trending } = props
 
 	return (
-		<div className='relative w-[24rem] rounded-[0.8rem] overflow-hidden cursor-pointer'>
+		<div className='relative w-full h-[14rem] rounded-[0.8rem] overflow-hidden cursor-pointer md:h-[23rem]  xl:h-[27rem]'>
 			<Image
 				src={trending.small}
-				width={240}
-				height={140}
-				className='w-full lg:hidden'
+				fill
+				className='w-full object-cover lg:hidden'
 				alt={title}
 			/>
 			<Image
 				src={trending.large}
-				width={240}
-				height={140}
-				className='hidden w-full lg:inline-flex'
+				fill
+				className='hidden w-full object-cover lg:inline-flex'
 				alt={title}
 			/>
 

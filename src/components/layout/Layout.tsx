@@ -25,7 +25,7 @@ function Layout(props: Props) {
 				/>
 			</Head>
 			<Navigation />
-			<main className='px-[1.6rem] xl:px-[3.6rem] xl:ml-[9.6rem]'>{props.children}</main>
+			<main className='pl-[1.6rem] md:pl-[2.4rem] xl:pl-[3.6rem] xl:pt-[4rem] xl:ml-[13.6rem]'>{props.children}</main>
 		</>
 	)
 }

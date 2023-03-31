@@ -1,9 +1,17 @@
 import Link from 'next/link'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 
 function Navigation() {
+	const router = useRouter()
+	const currentRoute = router.pathname
+
+	const nonActivePath =
+		'aspect-square md:h-[2rem] md:w-[2rem] hover:invert-[50] hover:sepia-[.35] hover:saturate-[8000] hover:hue-rotate-[330deg]'
+	const activePath = 'aspect-square md:h-[2rem] md:w-[2rem]' + ' invert-80 brightness-[150] saturate-0'
+
 	return (
-		<header className='flex flex-row place-items-center justify-between p-[1.6rem] bg-semiDarkBlue md:p-[2.4rem] md:rounded-[1rem] xl:fixed xl:flex-col xl:h-[95vh] xl:p-[3.2rem]'>
+		<header className='flex flex-row place-items-center justify-between p-[1.6rem] bg-semiDarkBlue md:p-[2.4rem] md:m-[2.4rem] md:rounded-[1rem] xl:fixed xl:flex-col xl:h-[95vh] xl:p-[3.2rem] xl:m-[3.2rem]'>
 			<Image
 				src='/assets/logo.svg'
 				width={25}
@@ -20,7 +28,7 @@ function Navigation() {
 								src='/assets/icons/icon-nav-home.svg'
 								width={16}
 								height={16}
-								className='aspect-square md:h-[2rem] md:w-[2rem]'
+								className={currentRoute === '/' ? activePath : nonActivePath}
 								alt='Home page'
 							/>
 						</Link>
@@ -31,7 +39,7 @@ function Navigation() {
 								src='/assets/icons/icon-nav-movies.svg'
 								width={16}
 								height={16}
-								className='aspect-square md:h-[2rem] md:w-[2rem]'
+								className={currentRoute === '/movies' ? activePath : nonActivePath}
 								alt='Movies page'
 							/>
 						</Link>
@@ -42,7 +50,7 @@ function Navigation() {
 								src='/assets/icons/icon-nav-tv-series.svg'
 								width={16}
 								height={16}
-								className='aspect-square md:h-[2rem] md:w-[2rem]'
+								className={currentRoute === '/tv-series' ? activePath : nonActivePath}
 								alt='TV series page'
 							/>
 						</Link>
@@ -53,7 +61,7 @@ function Navigation() {
 								src='/assets/icons/icon-nav-bookmark.svg'
 								width={16}
 								height={16}
-								className='aspect-square md:h-[2rem] md:w-[2rem]'
+								className={currentRoute === '/bookmarked' ? activePath : nonActivePath}
 								alt='Bookmarked page'
 							/>
 						</Link>

@@ -29,3 +29,13 @@ html {
 body {
 	min-height: 100vh;
 }
+
+.slick-slide > div {
+	margin-right: 1.6rem;
+}
+
+@media (min-width: 768px) {
+	.slick-slide > div {
+		margin-right: 4rem;
+	}
+}
