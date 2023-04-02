@@ -3,19 +3,20 @@ import { useEffect, useRef, useState } from 'react'
 
 type Props = {
 	placeholder: string
+	onSearch: (filterResults: string) => void
 }
 
-export const Searchbar = (props: Props) => {
+export const Searchbar = ({ placeholder, onSearch }: Props) => {
 	const [searchedTitle, setSearchedTitle] = useState('')
 	const inputRef = useRef<HTMLInputElement>(null)
 
 	useEffect(() => {
 		const debounce = setTimeout(() => {
-			console.log(searchedTitle)
+			onSearch(searchedTitle)
 		}, 500)
 
 		return () => clearTimeout(debounce)
-	}, [searchedTitle])
+	}, [searchedTitle, onSearch])
 
 	function Search() {
 		if (inputRef.current) {
@@ -43,7 +44,7 @@ export const Searchbar = (props: Props) => {
 					name='searchbar'
 					type='text'
 					className='text-input font-light grow pb-[0.5rem] border-b border-transparent bg-inherit text-pureWhite caret-lightRed focus:border-greyishBlue focus:outline-none placeholder:text-pureWhite placeholder:opacity-40 cursor-pointer'
-					placeholder={props.placeholder}
+					placeholder={placeholder}
 					ref={inputRef}
 					onChange={Search}
 				/>

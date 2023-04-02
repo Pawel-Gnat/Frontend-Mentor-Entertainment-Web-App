@@ -15,3 +15,7 @@ export const getMoviesOnly = () => {
 export const getTVSeriesOnly = () => {
 	return data.filter(el => el.category === 'TV Series')
 }
+
+export const getfilteredData = (result: string) => {
+	return data.filter(el => el.title.toLowerCase().includes(result.toLowerCase()))
+}

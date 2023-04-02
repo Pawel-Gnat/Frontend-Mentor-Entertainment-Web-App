@@ -5,6 +5,7 @@ import { CardsList } from '../components/ui/Card/CardsList'
 import { Heading } from '../components/ui/Text/Heading'
 import TrendingCardsList from '../components/ui/Card/TrendingCardsList'
 import { Loader } from '@/components/ui/Loader/Loader'
+import { SearchResults } from '@/components/ui/SearchResults/SearchResults'
 
 type RecommendedShows = {
 	title: string
@@ -55,6 +56,8 @@ export default function HomePage(props: Props) {
 	const [isRecommendedShowsLoading, setIsRecommendedShowsLoading] = useState(true)
 	const [recommendedShows, setRecommendedShows] = useState<RecommendedShows[]>([])
 	const [trendingShows, setTrendingShows] = useState<TrendingShows[]>([])
+	const [isSearching, setIsSearching] = useState(false)
+	const [filteredResults, setFilteredResults] = useState('')
 
 	useEffect(() => {
 		setTrendingShows(trendingShowsData)
@@ -66,13 +69,32 @@ export default function HomePage(props: Props) {
 		setIsRecommendedShowsLoading(false)
 	}, [recommendedShows, recommendedShowsData])
 
+	const filterResults = (result: string) => {
+		if (result.trim() === '') {
+			setIsSearching(false)
+		} else {
+			setFilteredResults(result)
+			setIsSearching(true)
+		}
+	}
+
 	return (
 		<>
-			<Searchbar placeholder='Search for movies or TV series' />
-			<Heading content='Trending' />
-			{isTrendingShowsLoading ? <Loader /> : <TrendingCardsList cards={trendingShows} />}
-			<Heading content='Recommended for you' />
-			{isRecommendedShowsLoading ? <Loader /> : <CardsList cards={recommendedShows} />}
+			<Searchbar
+				placeholder='Search for movies or TV series'
+				onSearch={filterResults}
+			/>
+
+			{isSearching ? (
+				<SearchResults result={filteredResults} />
+			) : (
+				<>
+					<Heading content='Trending' />
+					{isTrendingShowsLoading ? <Loader /> : <TrendingCardsList cards={trendingShows} />}
+					<Heading content='Recommended for you' />
+					{isRecommendedShowsLoading ? <Loader /> : <CardsList cards={recommendedShows} />}
+				</>
+			)}
 		</>
 	)
 }
