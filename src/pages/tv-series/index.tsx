@@ -1,4 +1,4 @@
-import { Searchbar } from '../../components/ui/Searchbar'
+import { Searchbar } from '../../components/ui/Searchbar/Searchbar'
 
 export default function TvSeriesPage() {
 	return (

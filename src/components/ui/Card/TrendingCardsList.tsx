@@ -31,6 +31,7 @@ export default class TrendingCardsList extends Component<Props> {
 
 		const settings = {
 			dots: false,
+			infinite: false,
 			slidesToShow: 2.5,
 			slidesToScroll: 1,
 			arrows: false,

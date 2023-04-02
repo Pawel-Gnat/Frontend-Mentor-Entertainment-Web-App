@@ -7,7 +7,7 @@ function Navigation() {
 	const currentRoute = router.pathname
 
 	const nonActivePath =
-		'aspect-square md:h-[2rem] md:w-[2rem] hover:invert-[50] hover:sepia-[.35] hover:saturate-[8000] hover:hue-rotate-[330deg]'
+		'aspect-square md:h-[2rem] md:w-[2rem] hover:invert-[10] hover:sepia-[.35] hover:saturate-[8000] hover:hue-rotate-[330deg]'
 	const activePath = 'aspect-square md:h-[2rem] md:w-[2rem]' + ' invert-80 brightness-[150] saturate-0'
 
 	return (

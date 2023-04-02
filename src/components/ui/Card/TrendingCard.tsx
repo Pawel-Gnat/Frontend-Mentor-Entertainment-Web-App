@@ -1,4 +1,7 @@
 import Image from 'next/image'
+import { useState } from 'react'
+import { CardHover } from './CardHover'
+import { BookmarkButton } from '../Button/BookmarkButton'
 
 type Props = {
 	title: string
@@ -13,9 +16,21 @@ type Props = {
 
 export const TrendingCard = (props: Props) => {
 	const { year, category, rating, title, trending } = props
+	const [isHovering, setIsHovering] = useState(false)
+
+	const handleMouseOver = () => {
+		setIsHovering(true)
+	}
+
+	const handleMouseOut = () => {
+		setIsHovering(false)
+	}
 
 	return (
-		<div className='relative w-full h-[14rem] rounded-[0.8rem] overflow-hidden cursor-pointer md:h-[23rem]  xl:h-[27rem]'>
+		<div
+			className='relative w-full h-[14rem] rounded-[0.8rem] overflow-hidden md:h-[23rem] xl:h-[27rem]'
+			onMouseOver={handleMouseOver}
+			onMouseOut={handleMouseOut}>
 			<Image
 				src={trending.small}
 				fill
@@ -28,21 +43,6 @@ export const TrendingCard = (props: Props) => {
 				className='hidden w-full object-cover lg:inline-flex'
 				alt={title}
 			/>
-
-			<button
-				type='button'
-				className='absolute top-[0.8rem] right-[0.8rem]
-					h-[3.2rem] w-[3.2rem] p-[0.9rem] rounded-full bg-darkBlue/50'
-				aria-label='Bookmark'>
-				<Image
-					src='/assets/icons/icon-bookmark-empty.svg'
-					width={12}
-					height={14}
-					className='h-full w-auto m-auto'
-					alt=''
-					aria-hidden='true'
-				/>
-			</button>
 
 			<div className='absolute bottom-[1.6rem] left-[1.6rem]'>
 				<div className='flex gap-[0.8rem] text-trending-text font-light text-pureWhite mt-[0.8rem] opacity-75 '>
@@ -61,6 +61,9 @@ export const TrendingCard = (props: Props) => {
 				</div>
 				<strong className='text-trending-title font-medium text-pureWhite cursor-default'>{title}</strong>
 			</div>
+
+			<CardHover hover={isHovering} />
+			<BookmarkButton />
 		</div>
 	)
 }
