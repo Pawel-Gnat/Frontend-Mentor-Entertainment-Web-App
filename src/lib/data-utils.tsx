@@ -9,10 +9,10 @@ export const getTrendingShows = () => {
 }
 
 export const getMoviesOnly = () => {
-	return data.filter(el => el.category === 'Movies')
+	return data.filter(el => el.category === 'Movie')
 }
 
-export const getTVSeriesOnly = () => {
+export const getTvSeriesOnly = () => {
 	return data.filter(el => el.category === 'TV Series')
 }
 
