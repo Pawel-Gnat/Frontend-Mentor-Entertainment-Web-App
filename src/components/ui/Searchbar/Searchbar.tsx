@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
+import { SearchInput } from '../Input/Input'
 
 type Props = {
 	placeholder: string
@@ -8,29 +9,22 @@ type Props = {
 
 export const Searchbar = ({ placeholder, onSearch }: Props) => {
 	const [searchedTitle, setSearchedTitle] = useState('')
-	const inputRef = useRef<HTMLInputElement>(null)
 
 	useEffect(() => {
 		const debounce = setTimeout(() => {
 			onSearch(searchedTitle)
 		}, 500)
 
+		console.log(searchedTitle)
 		return () => clearTimeout(debounce)
 	}, [searchedTitle, onSearch])
 
-	function Search() {
-		if (inputRef.current) {
-			setSearchedTitle(inputRef.current.value)
-		}
+	function handleSearch(searchValue: string) {
+		setSearchedTitle(searchValue)
 	}
 
 	return (
 		<>
-			<label
-				htmlFor='searchbar'
-				className='visually-hidden'>
-				Searchbar
-			</label>
 			<div className='flex flex-row gap-[1.6rem] pt-[2.4rem] lg:gap-[2.4rem]'>
 				<Image
 					src='/assets/icons/icon-search.svg'
@@ -40,13 +34,10 @@ export const Searchbar = ({ placeholder, onSearch }: Props) => {
 					alt=''
 					aria-hidden='true'
 				/>
-				<input
-					name='searchbar'
-					type='text'
-					className='text-input font-light grow pb-[0.5rem] border-b border-transparent bg-inherit text-pureWhite caret-lightRed focus:border-greyishBlue focus:outline-none placeholder:text-pureWhite placeholder:opacity-40 cursor-pointer'
+				<SearchInput
+					content='Searchbar'
 					placeholder={placeholder}
-					ref={inputRef}
-					onChange={Search}
+					onChange={handleSearch}
 				/>
 			</div>
 		</>

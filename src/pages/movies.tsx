@@ -1,10 +1,10 @@
-import { getMoviesOnly } from '../../lib/data-utils'
+import { getMoviesOnly } from '../lib/data-utils'
 import { useEffect, useState } from 'react'
-import { CardsList } from '../../components/ui/Card/CardsList'
-import { Heading } from '../../components/ui/Text/Heading'
-import { Loader } from '../../components/ui/Loader/Loader'
-import { SearchResults } from '../../components/ui/SearchResults/SearchResults'
-import { Searchbar } from '../../components/ui/Searchbar/Searchbar'
+import { CardsList } from '../components/ui/Card/CardsList'
+import { Heading } from '../components/ui/Text/Heading'
+import { Loader } from '../components/ui/Loader/Loader'
+import { SearchResults } from '../components/ui/SearchResults/SearchResults'
+import { Searchbar } from '../components/ui/Searchbar/Searchbar'
 
 type Movies = {
 	title: string
