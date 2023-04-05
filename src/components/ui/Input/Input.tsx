@@ -38,18 +38,18 @@ export const SearchInput = (props: SearchProps) => {
 type AuthProps = {
 	content: string
 	placeholder: string
-	// onChange: (searchValue: string) => void
+	onChange: (value: string) => void
 }
 
 export const AuthInput = (props: AuthProps) => {
 	const inputRef = useRef<HTMLInputElement>(null)
 
-	// function Search() {
-	// 	if (inputRef.current) {
-	// 		const searchValue = inputRef.current.value
-	// 		props.onChange(searchValue)
-	// 	}
-	// }
+	function handleInputChange() {
+		if (inputRef.current) {
+			const value = inputRef.current.value
+			props.onChange(value)
+		}
+	}
 
 	return (
 		<>
@@ -64,7 +64,7 @@ export const AuthInput = (props: AuthProps) => {
 				className='font-light w-full px-[1.6rem] pb-[1.8rem] border-b border-greyishBlue bg-inherit text-pureWhite caret-lightRed focus:border-pureWhite focus:outline-none placeholder:text-pureWhite placeholder:opacity-40 cursor-pointer'
 				placeholder={props.placeholder}
 				ref={inputRef}
-				// onChange={Search}
+				onChange={handleInputChange}
 			/>
 		</>
 	)

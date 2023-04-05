@@ -19,8 +19,8 @@ export const Searchbar = ({ placeholder, onSearch }: Props) => {
 		return () => clearTimeout(debounce)
 	}, [searchedTitle, onSearch])
 
-	function handleSearch(searchValue: string) {
-		setSearchedTitle(searchValue)
+	function handleSearch(value: string) {
+		setSearchedTitle(value)
 	}
 
 	return (

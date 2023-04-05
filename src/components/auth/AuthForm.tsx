@@ -1,9 +1,9 @@
 import Image from 'next/image'
-import { useRef, useState } from 'react'
-import { useRouter } from 'next/router'
+// import { useRouter } from 'next/router'
 import { AuthInput } from '../ui/Input/Input'
+import { useState } from 'react'
 
-async function createUser(email, password) {
+async function createUser(email: string, password: string) {
 	const response = await fetch('/api/auth/sign-up', {
 		method: 'POST',
 		body: JSON.stringify({ email, password }),
@@ -22,27 +22,49 @@ async function createUser(email, password) {
 }
 
 export const AuthForm = () => {
-	const emailInputRef = useRef()
-	const passwordInputRef = useRef()
-
 	const [isLogin, setIsLogin] = useState(true)
-	const router = useRouter()
+	const [email, setEmail] = useState('')
+	const [password, setPassword] = useState('')
+	const [repeatedPassword, setRepeatedPassword] = useState('')
+	// const router = useRouter()
 
 	function switchAuthModeHandler() {
 		setIsLogin(prevState => !prevState)
 	}
 
-	async function submitHandler(e) {
-		e.preventDefault()
+	function handleEmail(value: string) {
+		setEmail(value)
+	}
 
-		const enteredEmail = emailInputRef.current.value
-		const enteredPassword = passwordInputRef.current.value
+	function handlePassword(value: string) {
+		setPassword(value)
+	}
+
+	function handleRepeatedPassword(value: string) {
+		setRepeatedPassword(value)
+	}
+
+	function comparePasswords() {
+		if (password !== repeatedPassword) {
+			console.log('Passwords are not the same')
+			return false
+		}
+
+		return true
+	}
+
+	async function submitHandler(e: React.FormEvent<HTMLFormElement>) {
+		e.preventDefault()
 
 		if (isLogin) {
 			///
 		} else {
+			if (!comparePasswords()) {
+				return
+			}
+
 			try {
-				const result = await createUser(enteredEmail, enteredPassword)
+				const result = await createUser(email, password)
 				console.log(result)
 			} catch (error) {
 				console.log(error)
@@ -67,14 +89,24 @@ export const AuthForm = () => {
 						className='flex flex-col gap-[2.4rem]'
 						onSubmit={submitHandler}>
 						<AuthInput
-							content='Your Email'
+							content='Your email'
 							placeholder='Email address'
+							onChange={handleEmail}
 						/>
 
 						<AuthInput
-							content='Your Password'
+							content='Your password'
 							placeholder='Password'
+							onChange={handlePassword}
 						/>
+
+						{isLogin ? null : (
+							<AuthInput
+								content='Repeat password'
+								placeholder='Repeat password'
+								onChange={handleRepeatedPassword}
+							/>
+						)}
 
 						<button className='font-outfit text-[1.5rem] font-light text-pureWhite w-full p-[1.5rem] mt-[1.6rem] rounded-[0.6rem] bg-lightRed'>
 							{isLogin ? 'Login to your account' : 'Create an account'}
