@@ -7,6 +7,7 @@ import TrendingCardsList from '../components/ui/Card/TrendingCardsList'
 import { Loader } from '../components/ui/Loader/Loader'
 import { SearchResults } from '../components/ui/SearchResults/SearchResults'
 import { getSession } from 'next-auth/react'
+import { GetServerSidePropsContext } from 'next'
 
 type RecommendedShows = {
 	title: string
@@ -100,7 +101,7 @@ export default function HomePage(props: Props) {
 	)
 }
 
-export const getServerSideProps = async context => {
+export const getServerSideProps = async (context: GetServerSidePropsContext) => {
 	const session = await getSession({ req: context.req })
 
 	if (!session) {

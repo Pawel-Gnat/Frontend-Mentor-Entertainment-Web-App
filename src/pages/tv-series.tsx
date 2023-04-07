@@ -6,6 +6,7 @@ import { Loader } from '../components/ui/Loader/Loader'
 import { SearchResults } from '../components/ui/SearchResults/SearchResults'
 import { Searchbar } from '../components/ui/Searchbar/Searchbar'
 import { getSession } from 'next-auth/react'
+import { GetServerSidePropsContext } from 'next'
 
 type TvSeries = {
 	title: string
@@ -70,7 +71,7 @@ export default function TvSeriesPage(props: Props) {
 	)
 }
 
-export const getServerSideProps = async context => {
+export const getServerSideProps = async (context: GetServerSidePropsContext) => {
 	const session = await getSession({ req: context.req })
 
 	if (!session) {

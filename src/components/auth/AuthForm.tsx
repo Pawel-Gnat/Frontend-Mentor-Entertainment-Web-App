@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { AuthInput } from '../ui/Input/Input'
 import { useState } from 'react'
-import { SignInResponse, signIn } from 'next-auth/react'
+import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/router'
 
 async function createUser(email: string, password: string) {

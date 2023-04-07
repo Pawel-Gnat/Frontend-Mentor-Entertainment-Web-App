@@ -1,5 +1,6 @@
 import { signOut } from 'next-auth/react'
 import { getSession } from 'next-auth/react'
+import { GetServerSidePropsContext } from 'next'
 
 export default function ProfilePage() {
 	function logoutHandler() {
@@ -18,7 +19,7 @@ export default function ProfilePage() {
 	)
 }
 
-export const getServerSideProps = async context => {
+export const getServerSideProps = async (context: GetServerSidePropsContext) => {
 	const session = await getSession({ req: context.req })
 
 	if (!session) {
