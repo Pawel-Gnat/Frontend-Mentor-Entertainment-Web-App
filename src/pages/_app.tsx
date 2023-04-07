@@ -2,6 +2,7 @@ import '../styles/global.css'
 import type { AppProps } from 'next/app'
 import { Outfit } from 'next/font/google'
 import Layout from '../components/layout/Layout'
+import { SessionProvider } from 'next-auth/react'
 
 const outfit = Outfit({
 	weight: ['300', '500'],
@@ -10,7 +11,7 @@ const outfit = Outfit({
 
 export default function App({ Component, pageProps }: AppProps) {
 	return (
-		<>
+		<SessionProvider session={pageProps.session}>
 			<style
 				jsx
 				global>{`
@@ -21,6 +22,6 @@ export default function App({ Component, pageProps }: AppProps) {
 			<Layout>
 				<Component {...pageProps} />
 			</Layout>
-		</>
+		</SessionProvider>
 	)
 }

@@ -1,7 +1,8 @@
 import Image from 'next/image'
-// import { useRouter } from 'next/router'
 import { AuthInput } from '../ui/Input/Input'
 import { useState } from 'react'
+import { SignInResponse, signIn } from 'next-auth/react'
+import { useRouter } from 'next/router'
 
 async function createUser(email: string, password: string) {
 	const response = await fetch('/api/auth/sign-up', {
@@ -26,7 +27,7 @@ export const AuthForm = () => {
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 	const [repeatedPassword, setRepeatedPassword] = useState('')
-	// const router = useRouter()
+	const router = useRouter()
 
 	function switchAuthModeHandler() {
 		setIsLogin(prevState => !prevState)
@@ -57,7 +58,11 @@ export const AuthForm = () => {
 		e.preventDefault()
 
 		if (isLogin) {
-			///
+			const result = await signIn('credentials', { redirect: false, email, password })
+
+			if (result && !result.error) {
+				router.replace('/')
+			}
 		} else {
 			if (!comparePasswords()) {
 				return

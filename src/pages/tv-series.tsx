@@ -5,6 +5,7 @@ import { Heading } from '../components/ui/Text/Heading'
 import { Loader } from '../components/ui/Loader/Loader'
 import { SearchResults } from '../components/ui/SearchResults/SearchResults'
 import { Searchbar } from '../components/ui/Searchbar/Searchbar'
+import { getSession } from 'next-auth/react'
 
 type TvSeries = {
 	title: string
@@ -69,10 +70,19 @@ export default function TvSeriesPage(props: Props) {
 	)
 }
 
-export async function getStaticProps() {
+export const getServerSideProps = async context => {
+	const session = await getSession({ req: context.req })
+
+	if (!session) {
+		return {
+			redirect: {
+				destination: '/auth',
+				permament: false,
+			},
+		}
+	}
+
 	return {
-		props: {
-			TvSeriesData: getTvSeriesOnly(),
-		},
+		props: { session, TvSeriesData: getTvSeriesOnly() },
 	}
 }

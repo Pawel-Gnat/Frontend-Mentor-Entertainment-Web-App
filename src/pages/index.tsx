@@ -6,6 +6,7 @@ import { Heading } from '../components/ui/Text/Heading'
 import TrendingCardsList from '../components/ui/Card/TrendingCardsList'
 import { Loader } from '../components/ui/Loader/Loader'
 import { SearchResults } from '../components/ui/SearchResults/SearchResults'
+import { getSession } from 'next-auth/react'
 
 type RecommendedShows = {
 	title: string
@@ -99,11 +100,19 @@ export default function HomePage(props: Props) {
 	)
 }
 
-export async function getStaticProps() {
+export const getServerSideProps = async context => {
+	const session = await getSession({ req: context.req })
+
+	if (!session) {
+		return {
+			redirect: {
+				destination: '/auth',
+				permament: false,
+			},
+		}
+	}
+
 	return {
-		props: {
-			trendingShowsData: getTrendingShows(),
-			recommendedShowsData: getRecommendedShows(),
-		},
+		props: { session, trendingShowsData: getTrendingShows(), recommendedShowsData: getRecommendedShows() },
 	}
 }

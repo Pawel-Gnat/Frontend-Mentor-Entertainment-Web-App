@@ -15,7 +15,6 @@ export const Searchbar = ({ placeholder, onSearch }: Props) => {
 			onSearch(searchedTitle)
 		}, 500)
 
-		console.log(searchedTitle)
 		return () => clearTimeout(debounce)
 	}, [searchedTitle, onSearch])
 
