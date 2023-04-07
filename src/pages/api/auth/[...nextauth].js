@@ -2,11 +2,6 @@ import { connectToDatabase } from '../../../lib/database'
 import NextAuth from 'next-auth/next'
 import CredentialsProvider from 'next-auth/providers/credentials'
 
-// type User = {
-// 	email: string
-// 	password: string
-// }
-
 export default NextAuth({
 	session: {
 		strategy: 'jwt',
@@ -18,7 +13,6 @@ export default NextAuth({
 				email: { label: 'Email', type: 'text', placeholder: 'john@gmail.com' },
 				password: { label: 'Password', type: 'password' },
 			},
-			// authorize: async (credentials: Record<string, string>, req: any) => {
 
 			async authorize(credentials) {
 				const client = await connectToDatabase()

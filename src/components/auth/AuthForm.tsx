@@ -78,7 +78,7 @@ export const AuthForm = () => {
 	}
 
 	return (
-		<section className='flex flex-col items-center justify-center gap-[8rem] min-h-[100svh] pr-[1.6rem] md:pr-[2.4rem] xl:min-h-[90vh] xl:pr-[3.6rem] xl:mr-[13.6rem]'>
+		<section className='flex flex-col items-center justify-center gap-[8rem] min-h-screen pr-[1.6rem] md:pr-[2.4rem] xl:min-h-[90vh] xl:pr-[3.6rem] xl:mr-[13.6rem]'>
 			<Image
 				src='/assets/logo.svg'
 				width={25}
