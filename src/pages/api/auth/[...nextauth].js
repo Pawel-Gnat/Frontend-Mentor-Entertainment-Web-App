@@ -2,9 +2,10 @@ import { connectToDatabase } from '../../../lib/database'
 import NextAuth from 'next-auth/next'
 import CredentialsProvider from 'next-auth/providers/credentials'
 
-type User = {
-	password: string
-}
+// type User = {
+// 	email: string
+// 	password: string
+// }
 
 export default NextAuth({
 	session: {
@@ -13,7 +14,13 @@ export default NextAuth({
 	providers: [
 		CredentialsProvider({
 			name: 'Credentials',
-			authorize: async (credentials: Record<string, string>) => {
+			credentials: {
+				email: { label: 'Email', type: 'text', placeholder: 'john@gmail.com' },
+				password: { label: 'Password', type: 'password' },
+			},
+			// authorize: async (credentials: Record<string, string>, req: any) => {
+
+			async authorize(credentials) {
 				const client = await connectToDatabase()
 
 				const userCollection = client.db().collection('users')
