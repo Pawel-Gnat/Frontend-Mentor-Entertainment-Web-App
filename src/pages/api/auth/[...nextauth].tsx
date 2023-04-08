@@ -10,11 +10,15 @@ export default NextAuth({
 		CredentialsProvider({
 			name: 'Credentials',
 			credentials: {
-				email: { label: 'Email', type: 'text', placeholder: 'john@gmail.com' },
-				password: { label: 'Password', type: 'password' },
+				email: { label: 'Email', type: 'email', placeholder: 'example@user.com' },
+				password: { label: 'Password', type: 'password', placeholder: 'password' },
 			},
 
 			async authorize(credentials) {
+				if (!credentials) {
+					throw new Error('Credentials not provided')
+				}
+
 				const client = await connectToDatabase()
 
 				const userCollection = client.db().collection('users')
@@ -32,7 +36,7 @@ export default NextAuth({
 				}
 
 				client.close()
-				return { email: user.email }
+				return { email: user.email, id: 'id' }
 			},
 		}),
 	],
