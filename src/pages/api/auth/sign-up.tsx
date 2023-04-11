@@ -9,8 +9,19 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 	const data = req.body
 	const { email, password } = data
 
-	if (!email || !email.includes('@') || !password) {
-		res.status(422).json({ message: 'Invalid input - check your password or email' })
+	if (!email || !email.includes('@')) {
+		res.status(422).json({
+			message: 'Invalid email',
+			field: 'email',
+		})
+		return
+	}
+
+	if (!password) {
+		res.status(422).json({
+			message: `Can't be empty`,
+			field: 'password',
+		})
 		return
 	}
 
@@ -20,7 +31,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 	const existingUser = await db.collection('users').findOne({ email: email })
 
 	if (existingUser) {
-		res.status(422).json({ message: 'User exists already' })
+		res.status(422).json({ message: 'User exists already', field: 'email' })
 		client.close()
 		return
 	}

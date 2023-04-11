@@ -16,7 +16,12 @@ async function createUser(email: string, password: string) {
 	const data = await response.json()
 
 	if (!response.ok) {
-		throw new Error(data.message || 'Something went wrong!')
+		return {
+			error: {
+				message: data.message,
+				field: data.field,
+			},
+		}
 	}
 
 	return data
@@ -25,8 +30,11 @@ async function createUser(email: string, password: string) {
 export const AuthForm = () => {
 	const [isLogin, setIsLogin] = useState(true)
 	const [email, setEmail] = useState('')
+	const [emailError, setEmailError] = useState('')
 	const [password, setPassword] = useState('')
+	const [passwordError, setPasswordError] = useState('')
 	const [repeatedPassword, setRepeatedPassword] = useState('')
+	const [repeatedPasswordError, setRepeatedPasswordError] = useState('')
 	const router = useRouter()
 
 	function switchAuthModeHandler() {
@@ -45,13 +53,42 @@ export const AuthForm = () => {
 		setRepeatedPassword(value)
 	}
 
+	function handleInputErrors(error: { field: string; message: string }) {
+		if (error.field === 'email') {
+			setEmailError(error.message)
+
+			setTimeout(() => {
+				setEmailError('')
+			}, 1500)
+		}
+
+		if (error.field === 'password') {
+			setPasswordError(error.message)
+
+			setTimeout(() => {
+				setPasswordError('')
+			}, 1500)
+		}
+	}
+
 	function comparePasswords() {
 		if (password !== repeatedPassword) {
-			console.log('Passwords are not the same')
+			setRepeatedPasswordError('Passwords are not the same')
+
+			setTimeout(() => {
+				setRepeatedPasswordError('')
+			}, 1500)
+
 			return false
 		}
 
 		return true
+	}
+
+	function clearForm() {
+		handleEmail('')
+		handlePassword('')
+		handleRepeatedPassword('')
 	}
 
 	async function submitHandler(e: React.FormEvent<HTMLFormElement>) {
@@ -70,7 +107,15 @@ export const AuthForm = () => {
 
 			try {
 				const result = await createUser(email, password)
-				console.log(result)
+
+				if (result.error) {
+					handleInputErrors(result.error)
+				}
+
+				if (!result.error) {
+					clearForm()
+					console.log(result)
+				}
 			} catch (error) {
 				console.log(error)
 			}
@@ -96,24 +141,30 @@ export const AuthForm = () => {
 						<AuthInput
 							content='Your email'
 							placeholder='Email address'
+							value={email}
 							onChange={handleEmail}
+							error={emailError}
 						/>
 
 						<AuthInput
 							content='Your password'
 							placeholder='Password'
+							value={password}
 							onChange={handlePassword}
+							error={passwordError}
 						/>
 
 						{isLogin ? null : (
 							<AuthInput
 								content='Repeat password'
 								placeholder='Repeat password'
+								value={repeatedPassword}
 								onChange={handleRepeatedPassword}
+								error={repeatedPasswordError}
 							/>
 						)}
 
-						<button className='font-outfit text-[1.5rem] font-light text-pureWhite w-full p-[1.5rem] mt-[1.6rem] rounded-[0.6rem] bg-lightRed'>
+						<button className='font-outfit text-[1.5rem] font-light text-pureWhite w-full p-[1.5rem] mt-[1.6rem] rounded-[0.6rem] bg-lightRed hover:bg-pureWhite hover:text-darkBlue transition-colors duration-300'>
 							{isLogin ? 'Login to your account' : 'Create an account'}
 						</button>
 
