@@ -3,6 +3,7 @@ import { AuthInput } from '../ui/Input/Input'
 import { useState } from 'react'
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/router'
+import { AuthLoader } from '../ui/Loader/AuthLoader'
 
 async function createUser(email: string, password: string) {
 	const response = await fetch('/api/auth/sign-up', {
@@ -35,9 +36,10 @@ export const AuthForm = () => {
 	const [passwordError, setPasswordError] = useState('')
 	const [repeatedPassword, setRepeatedPassword] = useState('')
 	const [repeatedPasswordError, setRepeatedPasswordError] = useState('')
+	const [isLoading, setIsLoading] = useState(false)
 	const router = useRouter()
 
-	function switchAuthModeHandler() {
+	function HandleAuthMode() {
 		setIsLogin(prevState => !prevState)
 	}
 
@@ -53,7 +55,7 @@ export const AuthForm = () => {
 		setRepeatedPassword(value)
 	}
 
-	function handleInputErrors(error: { field: string; message: string }) {
+	function handleSignUpErrors(error: { field: string; message: string }) {
 		if (error.field === 'email') {
 			setEmailError(error.message)
 
@@ -64,6 +66,24 @@ export const AuthForm = () => {
 
 		if (error.field === 'password') {
 			setPasswordError(error.message)
+
+			setTimeout(() => {
+				setPasswordError('')
+			}, 1500)
+		}
+	}
+
+	function handleLoginErrors(error: string) {
+		if (error === 'User not found') {
+			setEmailError(error)
+
+			setTimeout(() => {
+				setEmailError('')
+			}, 1500)
+		}
+
+		if (error === 'Wrong password') {
+			setPasswordError(error)
 
 			setTimeout(() => {
 				setPasswordError('')
@@ -95,30 +115,36 @@ export const AuthForm = () => {
 		e.preventDefault()
 
 		if (isLogin) {
+			setIsLoading(true)
 			const result = await signIn('credentials', { redirect: false, email, password })
 
 			if (result && !result.error) {
 				router.replace('/')
 			}
+
+			if (result && result.error) {
+				handleLoginErrors(result.error)
+			}
+
+			setIsLoading(false)
 		} else {
 			if (!comparePasswords()) {
 				return
 			}
 
-			try {
-				const result = await createUser(email, password)
+			setIsLoading(true)
+			const result = await createUser(email, password)
 
-				if (result.error) {
-					handleInputErrors(result.error)
-				}
-
-				if (!result.error) {
-					clearForm()
-					console.log(result)
-				}
-			} catch (error) {
-				console.log(error)
+			if (result.error) {
+				handleSignUpErrors(result.error)
 			}
+
+			if (!result.error) {
+				clearForm()
+				HandleAuthMode()
+			}
+
+			setIsLoading(false)
 		}
 	}
 
@@ -164,8 +190,8 @@ export const AuthForm = () => {
 							/>
 						)}
 
-						<button className='font-outfit text-[1.5rem] font-light text-pureWhite w-full p-[1.5rem] mt-[1.6rem] rounded-[0.6rem] bg-lightRed hover:bg-pureWhite hover:text-darkBlue transition-colors duration-300'>
-							{isLogin ? 'Login to your account' : 'Create an account'}
+						<button className='font-outfit text-[1.5rem] font-light text-pureWhite w-full h-[5.5rem] p-[1.5rem] mt-[1.6rem] rounded-[0.6rem] bg-lightRed hover:bg-pureWhite hover:text-darkBlue transition-colors duration-300'>
+							{isLoading ? <AuthLoader /> : isLogin ? 'Login to your account' : 'Create an account'}
 						</button>
 
 						<div className='m-auto'>
@@ -173,7 +199,7 @@ export const AuthForm = () => {
 							<button
 								type='button'
 								className='text-lightRed'
-								onClick={switchAuthModeHandler}>
+								onClick={HandleAuthMode}>
 								{isLogin ? 'Sign Up' : 'Login'}
 							</button>
 						</div>

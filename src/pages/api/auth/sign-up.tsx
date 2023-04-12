@@ -39,9 +39,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 	const result = await db.collection('users').insertOne({
 		email: email,
 		password: password,
+		bookmarks: [],
 	})
 
-	res.status(201).json({ message: 'Created user' })
 	client.close()
 }
 
