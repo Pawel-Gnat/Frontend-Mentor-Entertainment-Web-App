@@ -17,5 +17,11 @@ export const getTvSeriesOnly = () => {
 }
 
 export const getfilteredData = (result: string) => {
-	return data.filter(el => el.title.toLowerCase().includes(result.toLowerCase()))
+	if (window.location.pathname === '/movies') {
+		return getMoviesOnly().filter(el => el.title.toLowerCase().includes(result.toLowerCase()))
+	} else if (window.location.pathname === '/tv-series') {
+		return getTvSeriesOnly().filter(el => el.title.toLowerCase().includes(result.toLowerCase()))
+	} else {
+		return data.filter(el => el.title.toLowerCase().includes(result.toLowerCase()))
+	}
 }
