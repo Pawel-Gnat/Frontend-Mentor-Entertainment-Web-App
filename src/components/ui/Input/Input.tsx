@@ -53,7 +53,7 @@ export const AuthInput = (props: AuthProps) => {
 
 	function handleInputChange() {
 		if (inputRef.current) {
-			const value = inputRef.current.value
+			const value = inputRef.current.value.trim()
 			props.onChange(value)
 		}
 	}

@@ -1,21 +1,42 @@
 import { signOut } from 'next-auth/react'
 import { getSession } from 'next-auth/react'
 import { GetServerSidePropsContext } from 'next'
+import { useState } from 'react'
+import { AuthButton } from '../components/ui/Button/Button'
+import { ProfileForm } from '@/components/profile/ProfileForm'
+import { Heading } from '../components/ui/Text/Heading'
 
-export default function ProfilePage() {
-	function logoutHandler() {
-		signOut()
+type Session = {
+	session: {
+		user: {
+			email: string
+		}
+		expires: string
+	}
+}
+
+export default function ProfilePage(props: Session) {
+	const [isLoading, setIsLoading] = useState(false)
+	const userName = props.session.user.email.split('@')[0]
+
+	async function logoutHandler() {
+		setIsLoading(true)
+		await signOut()
+		setIsLoading(false)
 	}
 
 	return (
-		<>
-			<h1 className='text-3xl font-light text-pureWhite'>Profile page</h1>
-			<button
-				className='py-[2rem] px-[4rem] rounded-full bg-pureWhite'
-				onClick={logoutHandler}>
-				Logout
-			</button>
-		</>
+		<div className='flex flex-col min-h-[70vh] pr-[1.6rem] md:pr-[2.4rem] xl:pr-[3.6rem]'>
+			<Heading content={`Hello ${userName}, it's your profile page. You can change your password below.`} />
+			<div className='flex flex-col justify-center grow h-full w-full max-w-[35rem] mx-auto'>
+				<ProfileForm />
+				<AuthButton
+					isLoading={isLoading}
+					content='Logout'
+					onClick={logoutHandler}
+				/>
+			</div>
+		</div>
 	)
 }
 

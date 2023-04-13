@@ -1,4 +1,4 @@
-import { PlayButton } from '../Button/PlayButton'
+import { PlayButton } from '../Button/Button'
 
 type Props = {
 	hover: boolean

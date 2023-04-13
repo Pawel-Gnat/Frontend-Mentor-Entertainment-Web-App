@@ -3,7 +3,7 @@ import { AuthInput } from '../ui/Input/Input'
 import { useState } from 'react'
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/router'
-import { AuthLoader } from '../ui/Loader/AuthLoader'
+import { AuthButton } from '../ui/Button/Button'
 
 async function createUser(email: string, password: string) {
 	const response = await fetch('/api/auth/sign-up', {
@@ -149,7 +149,7 @@ export const AuthForm = () => {
 	}
 
 	return (
-		<section className='flex flex-col items-center justify-center gap-[8rem] min-h-screen pr-[1.6rem] md:pr-[2.4rem] xl:min-h-[90vh] xl:pr-[3.6rem] xl:mr-[13.6rem]'>
+		<section className='flex flex-col items-center justify-center gap-[8rem] min-h-[90vh] pr-[1.6rem] md:pr-[2.4rem] xl:min-h-[90vh] xl:pr-[3.6rem] xl:mr-[13.6rem]'>
 			<Image
 				src='/assets/logo.svg'
 				width={25}
@@ -190,9 +190,10 @@ export const AuthForm = () => {
 							/>
 						)}
 
-						<button className='font-outfit text-[1.5rem] font-light text-pureWhite w-full h-[5.5rem] p-[1.5rem] mt-[1.6rem] rounded-[0.6rem] bg-lightRed hover:bg-pureWhite hover:text-darkBlue transition-colors duration-300'>
-							{isLoading ? <AuthLoader /> : isLogin ? 'Login to your account' : 'Create an account'}
-						</button>
+						<AuthButton
+							isLoading={isLoading}
+							content={isLogin ? 'Login to your account' : 'Create an account'}
+						/>
 
 						<div className='m-auto'>
 							<span className='mr-[1rem]'>{isLogin ? `Don't have an account?` : 'Already have an account?'}</span>

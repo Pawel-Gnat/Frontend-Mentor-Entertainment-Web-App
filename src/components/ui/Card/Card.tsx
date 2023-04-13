@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { useState } from 'react'
 import { CardHover } from './CardHover'
-import { BookmarkButton } from '../Button/BookmarkButton'
+import { BookmarkButton } from '../Button/Button'
 
 type Props = {
 	title: string
