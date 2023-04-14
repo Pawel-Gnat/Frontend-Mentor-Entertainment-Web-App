@@ -1,8 +1,9 @@
 import { connectToDatabase } from '../../../lib/database'
 import NextAuth from 'next-auth/next'
+import type { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 
-export default NextAuth({
+export const authOptions: NextAuthOptions = {
 	session: {
 		strategy: 'jwt',
 	},
@@ -41,4 +42,6 @@ export default NextAuth({
 		}),
 	],
 	secret: process.env.NEXTAUTH_SECRET,
-})
+}
+
+export default NextAuth(authOptions)

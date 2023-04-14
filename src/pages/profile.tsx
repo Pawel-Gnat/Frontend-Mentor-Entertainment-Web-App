@@ -19,15 +19,16 @@ export default function ProfilePage(props: Session) {
 	const [isLoading, setIsLoading] = useState(false)
 	const userName = props.session.user.email.split('@')[0]
 
-	async function logoutHandler() {
+	function logoutHandler() {
 		setIsLoading(true)
-		await signOut()
+		signOut()
 		setIsLoading(false)
 	}
 
 	return (
 		<div className='flex flex-col min-h-[70vh] pr-[1.6rem] md:pr-[2.4rem] xl:pr-[3.6rem]'>
-			<Heading content={`Hello ${userName}, it's your profile page. You can change your password below.`} />
+			<Heading content={`Hello ${userName}, it's your profile page.`} />
+			<Heading content='You can change your password below.'/>
 			<div className='flex flex-col justify-center grow h-full w-full max-w-[35rem] mx-auto'>
 				<ProfileForm />
 				<AuthButton

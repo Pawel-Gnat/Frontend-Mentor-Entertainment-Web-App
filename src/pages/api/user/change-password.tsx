@@ -1,14 +1,14 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { connectToDatabase } from '../../../lib/database'
-import { getSession } from 'next-auth/react'
-import { Session } from 'next-auth'
+import { Session, getServerSession } from 'next-auth'
+import { authOptions } from '../auth/[...nextauth]'
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
 	if (req.method !== 'PATCH') {
 		return
 	}
 
-	const session: Session | null = await getSession({ req: req })
+	const session: Session | null = await getServerSession(req, res, authOptions)
 
 	if (!session) {
 		res.status(401).json({ message: 'User is not authenticated' })
@@ -16,7 +16,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 	}
 
 	const userEmail = session.user?.email
-	const oldPassword = req.body.oldPassword
+	const oldPassword = req.body.currentPassword
 	const newPassword = req.body.newPassword
 
 	const client = await connectToDatabase()
@@ -29,10 +29,16 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 		return
 	}
 
-	const currentPassword = loggedUser.password
+	const userPassword = loggedUser.password
 
-	if (currentPassword !== oldPassword) {
-		res.status(403).json({ message: 'Wrong password' })
+	if (userPassword !== oldPassword) {
+		res.status(403).json({ message: 'Wrong password', field: 'currentPassword' })
+		client.close()
+		return
+	}
+
+	if (newPassword.length < 4) {
+		res.status(403).json({ message: 'Minimum 4 characters long', field: 'newPassword' })
 		client.close()
 		return
 	}
@@ -40,7 +46,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 	const result = await userCollection.updateOne({ email: userEmail }, { $set: { password: newPassword } })
 
 	client.close()
-	res.status(200).json({ message: 'Password updated' })
+	res.status(200).json({ message: 'Password updated', field: 'user' })
 }
 
 export default handler

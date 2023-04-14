@@ -56,7 +56,7 @@ export const BookmarkButton = () => {
 }
 
 type Props = {
-	isLoading: boolean
+	isLoading?: boolean
 	content: string
 	onClick?: () => void
 }

@@ -17,9 +17,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 		return
 	}
 
-	if (!password) {
+	if (password.length < 4) {
 		res.status(422).json({
-			message: `Can't be empty`,
+			message: 'Minimum 4 characters long',
 			field: 'password',
 		})
 		return
