@@ -2,10 +2,17 @@ import { AuthInput } from '../ui/Input/Input'
 import { AuthButton } from '../ui/Button/Button'
 import { useState } from 'react'
 
+type Data = {
+	field: string
+	message: string
+}
+
 export const ProfileForm = () => {
+	const [isLoading, setIsLoading] = useState(false)
 	const [passwordData, setPasswordData] = useState({
 		currentPassword: '',
 		newPassword: '',
+		passwordChanged: false,
 	})
 
 	const [changePasswordError, setChangePasswordError] = useState({
@@ -21,7 +28,7 @@ export const ProfileForm = () => {
 		setPasswordData({ ...passwordData, currentPassword: value })
 	}
 
-	function handleChangePasswordErrors(error: { field: string; message: string }) {
+	function handleChangePasswordErrors(error: Data) {
 		if (error.field === 'currentPassword') {
 			setChangePasswordError({ ...changePasswordError, currentPassword: error.message })
 
@@ -39,6 +46,16 @@ export const ProfileForm = () => {
 		}
 	}
 
+	function clearInputs(result: Data) {
+		if (result.field === 'user') {
+			setPasswordData({ newPassword: '', currentPassword: '', passwordChanged: true })
+
+			setTimeout(() => {
+				setPasswordData({ newPassword: '', currentPassword: '', passwordChanged: false })
+			}, 1500)
+		}
+	}
+
 	async function changePasswordHandler(passwords: { newPassword: string; currentPassword: string }) {
 		const response = await fetch('/api/user/change-password', {
 			method: 'PATCH',
@@ -50,11 +67,14 @@ export const ProfileForm = () => {
 
 		const data = await response.json()
 		handleChangePasswordErrors(data)
+		clearInputs(data)
 	}
 
-	function submitHandler(e: React.FormEvent<HTMLFormElement>) {
+	async function submitHandler(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault()
-		changePasswordHandler(passwordData)
+		setIsLoading(true)
+		await changePasswordHandler(passwordData)
+		setIsLoading(false)
 	}
 
 	return (
@@ -76,9 +96,13 @@ export const ProfileForm = () => {
 					value={passwordData.newPassword}
 					onChange={handleNewPassword}
 					error={changePasswordError.newPassword}
+					success={passwordData.passwordChanged ? 'Password changed' : undefined}
 				/>
 
-				<AuthButton content='Change password' />
+				<AuthButton
+					isLoading={isLoading}
+					content='Change password'
+				/>
 			</form>
 		</div>
 	)
