@@ -163,6 +163,7 @@ export const AuthForm = () => {
 				<div className='text-[1.5rem] font-light text-pureWhite mt-[4rem]'>
 					<form
 						className='flex flex-col gap-[2.4rem]'
+						autoComplete='off'
 						onSubmit={submitHandler}>
 						<AuthInput
 							content='Your email'
