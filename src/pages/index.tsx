@@ -1,4 +1,4 @@
-import { getRecommendedShows, getTrendingShows } from '../lib/data-utils'
+import { getRecommendedShows, getTrendingShows, modifiedData } from '../lib/data-utils'
 import { useEffect, useState } from 'react'
 import { Searchbar } from '../components/ui/Searchbar/Searchbar'
 import { CardsList } from '../components/ui/Card/CardsList'
@@ -26,12 +26,13 @@ type RecommendedShows = {
 	category: string
 	rating: string
 	isTrending: boolean
+	isBookmarked: boolean
 }
 
 type TrendingShows = {
 	title: string
 	thumbnail: {
-		trending: {
+		trending?: {
 			small: string
 			large: string
 		}
@@ -45,6 +46,7 @@ type TrendingShows = {
 	category: string
 	rating: string
 	isTrending: boolean
+	isBookmarked: boolean
 }
 
 type Props = {
@@ -62,14 +64,22 @@ export default function HomePage(props: Props) {
 	const [filteredResults, setFilteredResults] = useState('')
 
 	useEffect(() => {
-		setTrendingShows(trendingShowsData)
-		setIsTrendingShowsLoading(false)
-	}, [trendingShows, trendingShowsData])
+		const fetchData = async () => {
+			const data = await modifiedData(trendingShowsData)
+			setTrendingShows(data)
+			setIsTrendingShowsLoading(false)
+		}
+		fetchData()
+	}, [trendingShowsData])
 
 	useEffect(() => {
-		setRecommendedShows(recommendedShowsData)
-		setIsRecommendedShowsLoading(false)
-	}, [recommendedShows, recommendedShowsData])
+		const fetchData = async () => {
+			const data = await modifiedData(recommendedShowsData)
+			setRecommendedShows(data)
+			setIsRecommendedShowsLoading(false)
+		}
+		fetchData()
+	}, [recommendedShowsData])
 
 	const filterResults = (result: string) => {
 		if (result.trim() === '') {

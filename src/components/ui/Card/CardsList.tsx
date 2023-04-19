@@ -18,6 +18,7 @@ type Props = {
 		category: string
 		rating: string
 		isTrending: boolean
+		isBookmarked: boolean
 	}[]
 }
 
@@ -34,6 +35,7 @@ export const CardsList = (props: Props) => {
 						rating={el.rating}
 						category={el.category}
 						year={el.year}
+						bookmarked={el.isBookmarked}
 					/>
 				</li>
 			))}

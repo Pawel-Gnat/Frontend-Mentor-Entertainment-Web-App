@@ -2,21 +2,24 @@ import Image from 'next/image'
 import { useState } from 'react'
 import { CardHover } from './CardHover'
 import { BookmarkButton } from '../Button/Button'
+import { handleBookmarks } from '../../../lib/data-utils'
 
 type Props = {
 	title: string
 	year: number
 	category: string
 	rating: string
-	trending: {
+	trending?: {
 		small: string
 		large: string
 	}
+	bookmarked: boolean
 }
 
 export const TrendingCard = (props: Props) => {
-	const { year, category, rating, title, trending } = props
+	const { year, category, rating, title, trending, bookmarked } = props
 	const [isHovering, setIsHovering] = useState(false)
+	const [isBookmarked, setIsBookmarked] = useState(bookmarked)
 
 	const handleMouseOver = () => {
 		setIsHovering(true)
@@ -26,23 +29,43 @@ export const TrendingCard = (props: Props) => {
 		setIsHovering(false)
 	}
 
+	const handleBookmark = async () => {
+		const userBookmarks = await handleBookmarks()
+
+		if (!userBookmarks) return
+
+		if (userBookmarks.includes(title)) {
+			const result = await handleBookmarks('DELETE', title)
+			console.log(result)
+		} else {
+			const result = await handleBookmarks('POST', title)
+			console.log(result)
+		}
+
+		setIsBookmarked(prev => !prev)
+	}
+
 	return (
 		<div
 			className='relative w-full h-[14rem] rounded-[0.8rem] overflow-hidden md:h-[23rem] xl:h-[27rem]'
 			onMouseOver={handleMouseOver}
 			onMouseOut={handleMouseOut}>
-			<Image
-				src={trending.small}
-				fill
-				className='w-full object-cover lg:hidden'
-				alt={title}
-			/>
-			<Image
-				src={trending.large}
-				fill
-				className='hidden w-full object-cover lg:inline-flex'
-				alt={title}
-			/>
+			{trending ? (
+				<>
+					<Image
+						src={trending.small}
+						fill
+						className='w-full object-cover lg:hidden'
+						alt={title}
+					/>
+					<Image
+						src={trending.large}
+						fill
+						className='hidden w-full object-cover lg:inline-flex'
+						alt={title}
+					/>
+				</>
+			) : null}
 
 			<div className='absolute bottom-[1.6rem] left-[1.6rem]'>
 				<div className='flex gap-[0.8rem] text-trending-text font-light text-pureWhite mt-[0.8rem] opacity-75 '>
@@ -63,7 +86,10 @@ export const TrendingCard = (props: Props) => {
 			</div>
 
 			<CardHover hover={isHovering} />
-			<BookmarkButton />
+			<BookmarkButton
+				isBookmarked={isBookmarked}
+				onClick={handleBookmark}
+			/>
 		</div>
 	)
 }

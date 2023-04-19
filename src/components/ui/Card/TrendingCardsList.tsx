@@ -8,7 +8,7 @@ type Props = {
 	cards: {
 		title: string
 		thumbnail: {
-			trending: {
+			trending?: {
 				small: string
 				large: string
 			}
@@ -22,6 +22,7 @@ type Props = {
 		category: string
 		rating: string
 		isTrending: boolean
+		isBookmarked: boolean
 	}[]
 }
 
@@ -62,6 +63,7 @@ export default class TrendingCardsList extends Component<Props> {
 								rating={el.rating}
 								category={el.category}
 								year={el.year}
+								bookmarked={el.isBookmarked}
 							/>
 						</li>
 					))}

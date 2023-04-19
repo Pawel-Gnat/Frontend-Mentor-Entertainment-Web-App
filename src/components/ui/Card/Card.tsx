@@ -2,6 +2,7 @@ import Image from 'next/image'
 import { useState } from 'react'
 import { CardHover } from './CardHover'
 import { BookmarkButton } from '../Button/Button'
+import { handleBookmarks } from '../../../lib/data-utils'
 
 type Props = {
 	title: string
@@ -13,11 +14,13 @@ type Props = {
 		medium: string
 		large: string
 	}
+	bookmarked: boolean
 }
 
 export const Card = (props: Props) => {
-	const { year, category, rating, title, regular } = props
+	const { year, category, rating, title, regular, bookmarked } = props
 	const [isHovering, setIsHovering] = useState(false)
+	const [isBookmarked, setIsBookmarked] = useState(bookmarked)
 
 	const handleMouseOver = () => {
 		setIsHovering(true)
@@ -25,6 +28,22 @@ export const Card = (props: Props) => {
 
 	const handleMouseOut = () => {
 		setIsHovering(false)
+	}
+
+	const handleBookmark = async () => {
+		const userBookmarks = await handleBookmarks()
+
+		if (!userBookmarks) return
+
+		if (userBookmarks.includes(title)) {
+			const result = await handleBookmarks('DELETE', title)
+			console.log(result)
+		} else {
+			const result = await handleBookmarks('POST', title)
+			console.log(result)
+		}
+
+		setIsBookmarked(prev => !prev)
 	}
 
 	return (
@@ -59,7 +78,10 @@ export const Card = (props: Props) => {
 				/>
 
 				<CardHover hover={isHovering} />
-				<BookmarkButton />
+				<BookmarkButton
+					isBookmarked={isBookmarked}
+					onClick={handleBookmark}
+				/>
 			</div>
 
 			<div className='flex gap-[0.5rem] text-card-text font-light text-pureWhite mt-[0.8rem] opacity-75 '>
