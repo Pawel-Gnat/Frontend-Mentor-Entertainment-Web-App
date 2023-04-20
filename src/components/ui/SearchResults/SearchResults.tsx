@@ -1,5 +1,6 @@
-import { getfilteredData } from '../../../lib/data-utils'
+import { getfilteredData, modifiedData } from '../../../lib/data-utils'
 import { CardsList } from '../Card/CardsList'
+import { Loader } from '../Loader/Loader'
 import { Heading } from '../Text/Heading'
 import { useEffect, useState } from 'react'
 
@@ -24,15 +25,24 @@ type Shows = {
 	category: string
 	rating: string
 	isTrending: boolean
+	isBookmarked: boolean
 }
 
 export const SearchResults = (props: Props) => {
 	const [shows, setShows] = useState<Shows[]>([])
+	const [isSearching, setIsSearching] = useState(false)
 	const resultsNumber = shows.length
 	let resultText = ''
 
 	useEffect(() => {
-		setShows(getfilteredData(props.result))
+		const fetchData = async () => {
+			setIsSearching(true)
+			const data = getfilteredData(props.result)
+			const result = await modifiedData(data)
+			setShows(result)
+			setIsSearching(false)
+		}
+		fetchData()
 	}, [props.result])
 
 	if (resultsNumber === 0) {
@@ -45,8 +55,16 @@ export const SearchResults = (props: Props) => {
 
 	return (
 		<div>
-			<Heading content={resultText} />
-			{resultsNumber > 0 && <CardsList cards={shows} />}
+			{isSearching ? (
+				<div className='mt-[7rem]'>
+					<Loader />
+				</div>
+			) : (
+				<>
+					<Heading content={resultText} />
+					{resultsNumber > 0 && <CardsList cards={shows} />}
+				</>
+			)}
 		</div>
 	)
 }

@@ -1,4 +1,4 @@
-import { getTvSeriesOnly } from '../lib/data-utils'
+import { getTvSeries, modifiedData } from '../lib/data-utils'
 import { useEffect, useState } from 'react'
 import { CardsList } from '../components/ui/Card/CardsList'
 import { Heading } from '../components/ui/Text/Heading'
@@ -40,8 +40,12 @@ export default function TvSeriesPage(props: Props) {
 	const [filteredResults, setFilteredResults] = useState('')
 
 	useEffect(() => {
-		setTvSeries(TvSeriesData)
-		setIsTvSeriesLoading(false)
+		const fetchData = async () => {
+			const data = await modifiedData(TvSeriesData)
+			setTvSeries(data)
+			setIsTvSeriesLoading(false)
+		}
+		fetchData()
 	}, [tvSeries, TvSeriesData])
 
 	const filterResults = (result: string) => {
@@ -85,6 +89,6 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
 	}
 
 	return {
-		props: { session, TvSeriesData: getTvSeriesOnly() },
+		props: { session, TvSeriesData: getTvSeries() },
 	}
 }

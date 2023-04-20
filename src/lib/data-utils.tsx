@@ -18,7 +18,7 @@ type Shows = {
 	rating: string
 	isTrending: boolean
 	isBookmarked?: boolean
-}
+}[]
 
 export async function handleBookmarks(method: string = 'GET', title: string = '') {
 	if (title) {
@@ -60,10 +60,10 @@ export async function handleBookmarks(method: string = 'GET', title: string = ''
 	}
 }
 
-export const modifiedData = async (data: Shows[]) => {
+export const modifiedData = async (shows: Shows = data) => {
 	const userBookmarkedShows = await handleBookmarks()
 
-	return data.map(show => {
+	return shows.map(show => {
 		if (userBookmarkedShows.includes(show.title)) {
 			return { ...show, isBookmarked: true }
 		} else {
@@ -80,19 +80,19 @@ export const getTrendingShows = () => {
 	return data.filter(el => el.isTrending === true)
 }
 
-export const getMoviesOnly = () => {
+export const getMovies = () => {
 	return data.filter(el => el.category === 'Movie')
 }
 
-export const getTvSeriesOnly = () => {
+export const getTvSeries = () => {
 	return data.filter(el => el.category === 'TV Series')
 }
 
 export const getfilteredData = (result: string) => {
 	if (window.location.pathname === '/movies') {
-		return getMoviesOnly().filter(el => el.title.toLowerCase().includes(result.toLowerCase()))
+		return getMovies().filter(el => el.title.toLowerCase().includes(result.toLowerCase()))
 	} else if (window.location.pathname === '/tv-series') {
-		return getTvSeriesOnly().filter(el => el.title.toLowerCase().includes(result.toLowerCase()))
+		return getTvSeries().filter(el => el.title.toLowerCase().includes(result.toLowerCase()))
 	} else {
 		return data.filter(el => el.title.toLowerCase().includes(result.toLowerCase()))
 	}

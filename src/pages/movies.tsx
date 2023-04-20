@@ -1,4 +1,4 @@
-import { getMoviesOnly } from '../lib/data-utils'
+import { getMovies, modifiedData } from '../lib/data-utils'
 import { useEffect, useState } from 'react'
 import { CardsList } from '../components/ui/Card/CardsList'
 import { Heading } from '../components/ui/Text/Heading'
@@ -40,8 +40,12 @@ export default function MoviesPage(props: Props) {
 	const [filteredResults, setFilteredResults] = useState('')
 
 	useEffect(() => {
-		setMovies(moviesData)
-		setIsMoviesLoading(false)
+		const fetchData = async () => {
+			const data = await modifiedData(moviesData)
+			setMovies(data)
+			setIsMoviesLoading(false)
+		}
+		fetchData()
 	}, [movies, moviesData])
 
 	const filterResults = (result: string) => {
@@ -85,6 +89,6 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
 	}
 
 	return {
-		props: { session, moviesData: getMoviesOnly() },
+		props: { session, moviesData: getMovies() },
 	}
 }
