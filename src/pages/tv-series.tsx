@@ -25,6 +25,7 @@ type TvSeries = {
 	category: string
 	rating: string
 	isTrending: boolean
+	isBookmarked: boolean
 }
 
 type Props = {
