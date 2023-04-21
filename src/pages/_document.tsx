@@ -7,6 +7,7 @@ export default function Document() {
 			<body className='bg-darkBlue'>
 				<Main />
 				<NextScript />
+				<div id='notifications'></div>
 			</body>
 		</Html>
 	)

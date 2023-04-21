@@ -41,7 +41,6 @@ type AuthProps = {
 	value: string
 	onChange: (value: string) => void
 	error: string
-	success?: string
 }
 
 export const AuthInput = (props: AuthProps) => {
@@ -79,7 +78,6 @@ export const AuthInput = (props: AuthProps) => {
 				onChange={handleInputChange}
 			/>
 			{error ? <p className={`${textClass} text-lightRed`}>{error}</p> : null}
-			{props.success ? <p className={`${textClass} text-green-600`}>{props.success}</p> : null}
 		</div>
 	)
 }

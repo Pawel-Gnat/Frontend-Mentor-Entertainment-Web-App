@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { CardHover } from './CardHover'
 import { BookmarkButton } from '../Button/Button'
 import { handleBookmarks } from '../../../lib/data-utils'
+import { Notification } from '../Notification/Notification'
 
 type Props = {
 	title: string
@@ -21,6 +22,7 @@ export const Card = (props: Props) => {
 	const { year, category, rating, title, regular, bookmarked } = props
 	const [isHovering, setIsHovering] = useState(false)
 	const [isBookmarked, setIsBookmarked] = useState(bookmarked)
+	const [notification, setNotification] = useState({ active: false, message: '', status: '' })
 
 	const handleMouseOver = () => {
 		setIsHovering(true)
@@ -37,13 +39,20 @@ export const Card = (props: Props) => {
 
 		if (userBookmarks.includes(title)) {
 			const result = await handleBookmarks('DELETE', title)
-			console.log(result)
+			handleNotification(result)
 		} else {
 			const result = await handleBookmarks('POST', title)
-			console.log(result)
+			handleNotification(result)
 		}
 
 		setIsBookmarked(prev => !prev)
+	}
+
+	const handleNotification = (result: { message: string; status: string }) => {
+		setNotification({ active: true, message: result.message, status: result.status })
+		setTimeout(() => {
+			setNotification({ active: false, message: '', status: '' })
+		}, 3000)
 	}
 
 	return (
@@ -99,6 +108,12 @@ export const Card = (props: Props) => {
 				&bull;<span className='cursor-default'>{rating}</span>
 			</div>
 			<strong className='text-card-title font-medium text-pureWhite cursor-default'>{title}</strong>
+			{notification.active && (
+				<Notification
+					message={notification.message}
+					status={notification.status}
+				/>
+			)}
 		</div>
 	)
 }

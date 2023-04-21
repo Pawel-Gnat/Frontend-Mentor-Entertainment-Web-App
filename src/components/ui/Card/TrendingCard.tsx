@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { CardHover } from './CardHover'
 import { BookmarkButton } from '../Button/Button'
 import { handleBookmarks } from '../../../lib/data-utils'
+import { Notification } from '../Notification/Notification'
 
 type Props = {
 	title: string
@@ -20,6 +21,7 @@ export const TrendingCard = (props: Props) => {
 	const { year, category, rating, title, trending, bookmarked } = props
 	const [isHovering, setIsHovering] = useState(false)
 	const [isBookmarked, setIsBookmarked] = useState(bookmarked)
+	const [notification, setNotification] = useState({ active: false, message: '', status: '' })
 
 	const handleMouseOver = () => {
 		setIsHovering(true)
@@ -36,13 +38,20 @@ export const TrendingCard = (props: Props) => {
 
 		if (userBookmarks.includes(title)) {
 			const result = await handleBookmarks('DELETE', title)
-			console.log(result)
+			handleNotification(result)
 		} else {
 			const result = await handleBookmarks('POST', title)
-			console.log(result)
+			handleNotification(result)
 		}
 
 		setIsBookmarked(prev => !prev)
+	}
+
+	const handleNotification = (result: { message: string; status: string }) => {
+		setNotification({ active: true, message: result.message, status: result.status })
+		setTimeout(() => {
+			setNotification({ active: false, message: '', status: '' })
+		}, 3000)
 	}
 
 	return (
@@ -90,6 +99,12 @@ export const TrendingCard = (props: Props) => {
 				isBookmarked={isBookmarked}
 				onClick={handleBookmark}
 			/>
+			{notification.active && (
+				<Notification
+					message={notification.message}
+					status={notification.status}
+				/>
+			)}
 		</div>
 	)
 }

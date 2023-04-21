@@ -1,10 +1,12 @@
 import { AuthInput } from '../ui/Input/Input'
 import { AuthButton } from '../ui/Button/Button'
 import { useState } from 'react'
+import { Notification } from '../ui/Notification/Notification'
 
 type Data = {
 	field: string
 	message: string
+	status: string
 }
 
 export const ProfileForm = () => {
@@ -14,11 +16,11 @@ export const ProfileForm = () => {
 		newPassword: '',
 		passwordChanged: false,
 	})
-
 	const [changePasswordError, setChangePasswordError] = useState({
 		currentPassword: '',
 		newPassword: '',
 	})
+	const [notification, setNotification] = useState({ active: false, message: '', status: '' })
 
 	function handleNewPassword(value: string) {
 		setPasswordData({ ...passwordData, newPassword: value })
@@ -47,13 +49,17 @@ export const ProfileForm = () => {
 	}
 
 	function clearInputs(result: Data) {
-		if (result.field === 'user') {
-			setPasswordData({ newPassword: '', currentPassword: '', passwordChanged: true })
-
-			setTimeout(() => {
-				setPasswordData({ newPassword: '', currentPassword: '', passwordChanged: false })
-			}, 1500)
+		if (result.status === 'success') {
+			setPasswordData({ newPassword: '', currentPassword: '', passwordChanged: false })
+			handleNotification(result)
 		}
+	}
+
+	const handleNotification = (result: { message: string; status: string }) => {
+		setNotification({ active: true, message: result.message, status: result.status })
+		setTimeout(() => {
+			setNotification({ active: false, message: '', status: '' })
+		}, 3000)
 	}
 
 	async function changePasswordHandler(passwords: { newPassword: string; currentPassword: string }) {
@@ -96,7 +102,6 @@ export const ProfileForm = () => {
 					value={passwordData.newPassword}
 					onChange={handleNewPassword}
 					error={changePasswordError.newPassword}
-					success={passwordData.passwordChanged ? 'Password changed' : undefined}
 				/>
 
 				<AuthButton
@@ -104,6 +109,12 @@ export const ProfileForm = () => {
 					content='Change password'
 				/>
 			</form>
+			{notification.active && (
+				<Notification
+					message={notification.message}
+					status={notification.status}
+				/>
+			)}
 		</div>
 	)
 }

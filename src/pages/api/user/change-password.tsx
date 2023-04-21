@@ -46,7 +46,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 	const result = await userCollection.updateOne({ email: userEmail }, { $set: { password: newPassword } })
 
 	client.close()
-	res.status(200).json({ message: 'Password updated', field: 'user' })
+	res.status(200).json({ message: 'Password updated', status: 'success' })
 }
 
 export default handler
