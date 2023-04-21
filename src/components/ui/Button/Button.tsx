@@ -44,7 +44,7 @@ export const BookmarkButton = (props: BookmarkedProps) => {
 		<button
 			type='button'
 			className={`${props.isBookmarked ? 'bg-pureWhite' : hoverButtonClass} absolute top-[0.8rem] right-[0.8rem]
-        h-[3.2rem] w-[3.2rem] p-[0.9rem] rounded-full bg-darkBlue/50 z-10`}
+        h-[3.2rem] w-[3.2rem] p-[0.9rem] rounded-full z-10`}
 			aria-label='Bookmark'
 			onMouseOver={handleMouseOver}
 			onMouseOut={handleMouseOut}

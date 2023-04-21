@@ -4,6 +4,7 @@ import { CardHover } from './CardHover'
 import { BookmarkButton } from '../Button/Button'
 import { handleBookmarks } from '../../../lib/data-utils'
 import { Notification } from '../Notification/Notification'
+import { BookmarkLoader } from '../Loader/BookmarkLoader'
 
 type Props = {
 	title: string
@@ -22,6 +23,7 @@ export const Card = (props: Props) => {
 	const { year, category, rating, title, regular, bookmarked } = props
 	const [isHovering, setIsHovering] = useState(false)
 	const [isBookmarked, setIsBookmarked] = useState(bookmarked)
+	const [isBookmarking, setIsBookmarking] = useState(false)
 	const [notification, setNotification] = useState({ active: false, message: '', status: '' })
 
 	const handleMouseOver = () => {
@@ -33,6 +35,7 @@ export const Card = (props: Props) => {
 	}
 
 	const handleBookmark = async () => {
+		setIsBookmarking(true)
 		const userBookmarks = await handleBookmarks()
 
 		if (!userBookmarks) return
@@ -46,13 +49,14 @@ export const Card = (props: Props) => {
 		}
 
 		setIsBookmarked(prev => !prev)
+		setIsBookmarking(false)
 	}
 
 	const handleNotification = (result: { message: string; status: string }) => {
 		setNotification({ active: true, message: result.message, status: result.status })
 		setTimeout(() => {
 			setNotification({ active: false, message: '', status: '' })
-		}, 3000)
+		}, 2500)
 	}
 
 	return (
@@ -87,11 +91,16 @@ export const Card = (props: Props) => {
 				/>
 
 				<CardHover hover={isHovering} />
+			</div>
+
+			{isBookmarking ? (
+				<BookmarkLoader />
+			) : (
 				<BookmarkButton
 					isBookmarked={isBookmarked}
 					onClick={handleBookmark}
 				/>
-			</div>
+			)}
 
 			<div className='flex gap-[0.5rem] text-card-text font-light text-pureWhite mt-[0.8rem] opacity-75 '>
 				<span className='cursor-default'>{year}</span>
