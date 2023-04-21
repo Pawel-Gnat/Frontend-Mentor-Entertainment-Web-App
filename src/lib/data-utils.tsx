@@ -88,6 +88,11 @@ export const getTvSeries = () => {
 	return data.filter(el => el.category === 'TV Series')
 }
 
+export const getBookmarkedShows = async (data: Shows) => {
+	const bookmarkedShows = await modifiedData(data)
+	return bookmarkedShows.filter(el => el.isBookmarked === true)
+}
+
 export const getfilteredData = (result: string) => {
 	if (window.location.pathname === '/movies') {
 		return getMovies().filter(el => el.title.toLowerCase().includes(result.toLowerCase()))

@@ -1,4 +1,4 @@
-import { getfilteredData, modifiedData } from '../../../lib/data-utils'
+import { getBookmarkedShows, getfilteredData, modifiedData } from '../../../lib/data-utils'
 import { CardsList } from '../Card/CardsList'
 import { Loader } from '../Loader/Loader'
 import { Heading } from '../Text/Heading'
@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 
 type Props = {
 	result: string
+	bookmarks?: boolean
 }
 
 type Shows = {
@@ -39,11 +40,18 @@ export const SearchResults = (props: Props) => {
 			setIsSearching(true)
 			const data = getfilteredData(props.result)
 			const result = await modifiedData(data)
-			setShows(result)
+
+			if (props.bookmarks) {
+				const bookmarkedResult = await getBookmarkedShows(result)
+				setShows(bookmarkedResult)
+			} else {
+				setShows(result)
+			}
+
 			setIsSearching(false)
 		}
 		fetchData()
-	}, [props.result])
+	}, [props.result, props.bookmarks])
 
 	if (resultsNumber === 0) {
 		resultText = 'No results found'

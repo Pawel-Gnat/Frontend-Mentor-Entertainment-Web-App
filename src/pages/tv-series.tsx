@@ -29,11 +29,11 @@ type TvSeries = {
 }
 
 type Props = {
-	TvSeriesData: TvSeries[]
+	tvSeriesData: TvSeries[]
 }
 
 export default function TvSeriesPage(props: Props) {
-	const { TvSeriesData } = props
+	const { tvSeriesData } = props
 	const [isTvSeriesLoading, setIsTvSeriesLoading] = useState(true)
 	const [tvSeries, setTvSeries] = useState<TvSeries[]>([])
 	const [isSearching, setIsSearching] = useState(false)
@@ -41,12 +41,12 @@ export default function TvSeriesPage(props: Props) {
 
 	useEffect(() => {
 		const fetchData = async () => {
-			const data = await modifiedData(TvSeriesData)
+			const data = await modifiedData(tvSeriesData)
 			setTvSeries(data)
 			setIsTvSeriesLoading(false)
 		}
 		fetchData()
-	}, [tvSeries, TvSeriesData])
+	}, [tvSeries, tvSeriesData])
 
 	const filterResults = (result: string) => {
 		if (result.trim() === '') {
@@ -89,6 +89,6 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
 	}
 
 	return {
-		props: { session, TvSeriesData: getTvSeries() },
+		props: { session, tvSeriesData: getTvSeries() },
 	}
 }
