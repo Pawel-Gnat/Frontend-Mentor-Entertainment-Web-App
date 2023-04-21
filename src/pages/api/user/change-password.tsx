@@ -37,6 +37,12 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 		return
 	}
 
+	if (userPassword === oldPassword) {
+		res.status(403).json({ message: 'Are you sure? :)', status: 'success' })
+		client.close()
+		return
+	}
+
 	if (newPassword.length < 4) {
 		res.status(403).json({ message: 'Minimum 4 characters long', field: 'newPassword' })
 		client.close()
