@@ -1,7 +1,7 @@
 import { getBookmarkedShows, getfilteredData, modifiedData } from '../../../lib/data-utils'
 import { CardsList } from '../Card/CardsList'
 import { Loader } from '../Loader/Loader'
-import { Heading } from '../Text/Heading'
+import { Heading } from '../Text/Text'
 import { useEffect, useState } from 'react'
 
 type Props = {

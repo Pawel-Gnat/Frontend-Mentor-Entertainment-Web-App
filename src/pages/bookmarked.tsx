@@ -4,7 +4,7 @@ import { getSession } from 'next-auth/react'
 import { GetServerSidePropsContext } from 'next'
 import { modifiedData, getMovies, getTvSeries, getBookmarkedShows } from '../lib/data-utils'
 import { CardsList } from '../components/ui/Card/CardsList'
-import { Heading } from '../components/ui/Text/Heading'
+import { Heading, Text } from '../components/ui/Text/Text'
 import { Loader } from '../components/ui/Loader/Loader'
 import { SearchResults } from '../components/ui/SearchResults/SearchResults'
 
@@ -71,6 +71,14 @@ export default function BookmarkedPage(props: Props) {
 		}
 	}
 
+	const showsHandler = (shows: Shows[], title: string) => {
+		if (shows.length === 0) {
+			return <Text content={`You don't have any bookmarked ${title}`} />
+		} else {
+			return <CardsList cards={shows} />
+		}
+	}
+
 	return (
 		<>
 			<Searchbar
@@ -86,9 +94,9 @@ export default function BookmarkedPage(props: Props) {
 			) : (
 				<>
 					<Heading content='Bookmarked Movies' />
-					{isBookmarkedMoviesLoading ? <Loader /> : <CardsList cards={bookmarkedMovies} />}
+					{isBookmarkedMoviesLoading ? <Loader /> : showsHandler(bookmarkedMovies, 'movies')}
 					<Heading content='Bookmarked TV Series' />
-					{isBookmarkedTvSeriesLoading ? <Loader /> : <CardsList cards={bookmarkedTvSeries} />}
+					{isBookmarkedTvSeriesLoading ? <Loader /> : showsHandler(bookmarkedTvSeries, 'TV series')}
 				</>
 			)}
 		</>
