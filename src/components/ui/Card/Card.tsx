@@ -19,6 +19,11 @@ type Props = {
 	bookmarked: boolean
 }
 
+type NotificationType = {
+	message: string
+	status: string
+}
+
 export const Card = (props: Props) => {
 	const { year, category, rating, title, regular, bookmarked } = props
 	const [isHovering, setIsHovering] = useState(false)
@@ -52,11 +57,15 @@ export const Card = (props: Props) => {
 		setIsBookmarking(false)
 	}
 
-	const handleNotification = (result: { message: string; status: string }) => {
+	const handleNotification = (result: NotificationType) => {
 		setNotification({ active: true, message: result.message, status: result.status })
 		setTimeout(() => {
 			setNotification({ active: false, message: '', status: '' })
 		}, 2500)
+	}
+
+	const handlePlayButton = (notification: NotificationType) => {
+		handleNotification(notification)
 	}
 
 	return (
@@ -90,7 +99,10 @@ export const Card = (props: Props) => {
 					alt={title}
 				/>
 
-				<CardHover hover={isHovering} />
+				<CardHover
+					hover={isHovering}
+					handlePlayButton={handlePlayButton}
+				/>
 			</div>
 
 			{isBookmarking ? (

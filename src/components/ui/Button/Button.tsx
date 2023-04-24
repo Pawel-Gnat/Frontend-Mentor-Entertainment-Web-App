@@ -2,12 +2,21 @@ import Image from 'next/image'
 import { useState } from 'react'
 import { AuthLoader } from '../Loader/AuthLoader'
 
-export const PlayButton = () => {
+type PlayButtonProps = {
+	onClick: (props: { message: string; status: string }) => void
+}
+
+export const PlayButton = (props: PlayButtonProps) => {
+	const playHandler = () => {
+		props.onClick({ message: 'Play function is not implemented', status: 'error' })
+	}
+
 	return (
 		<button
 			type='button'
 			aria-label='Play'
-			className='text-[1.8rem] font-light relative left-[50%] top-[50%] translate-y-[-50%] translate-x-[-50%] flex flex-row gap-[1.9rem] p-[0.9rem] pr-[2.4rem] rounded-full bg-pureWhite/25 text-pureWhite'>
+			className='text-[1.8rem] font-light relative left-[50%] top-[50%] translate-y-[-50%] translate-x-[-50%] flex flex-row gap-[1.9rem] p-[0.9rem] pr-[2.4rem] rounded-full bg-pureWhite/25 text-pureWhite hover:bg-semiDarkBlue transition-colors'
+			onClick={playHandler}>
 			<Image
 				src='/assets/icons/icon-play.svg'
 				width={30}
@@ -44,7 +53,7 @@ export const BookmarkButton = (props: BookmarkedProps) => {
 		<button
 			type='button'
 			className={`${props.isBookmarked ? 'bg-pureWhite' : hoverButtonClass} absolute top-[0.8rem] right-[0.8rem]
-        h-[3.2rem] w-[3.2rem] p-[0.9rem] rounded-full z-10`}
+			h-[3.2rem] w-[3.2rem] p-[0.9rem] rounded-full z-10`}
 			aria-label='Bookmark'
 			onMouseOver={handleMouseOver}
 			onMouseOut={handleMouseOut}
