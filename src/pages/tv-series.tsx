@@ -1,5 +1,4 @@
-import { getTvSeries, modifiedData } from '../lib/data-utils'
-import { useEffect, useState } from 'react'
+import { getTvSeries } from '../lib/data-utils'
 import { CardsList } from '../components/ui/Card/CardsList'
 import { Heading } from '../components/ui/Text/Heading'
 import { Loader } from '../components/ui/Loader/Loader'
@@ -8,35 +7,16 @@ import { Searchbar } from '../components/ui/Searchbar/Searchbar'
 import { getSession } from 'next-auth/react'
 import { GetServerSidePropsContext } from 'next'
 import { DataType } from '../types/types'
+import { useSearch } from '../hooks/useSearch'
+import { useDataFetcher } from '../hooks/useDataFetcher'
 
 type Props = {
 	tvSeriesData: DataType[]
 }
 
-export default function TvSeriesPage(props: Props) {
-	const { tvSeriesData } = props
-	const [isTvSeriesLoading, setIsTvSeriesLoading] = useState(true)
-	const [tvSeries, setTvSeries] = useState<DataType[]>([])
-	const [isSearching, setIsSearching] = useState(false)
-	const [filteredResults, setFilteredResults] = useState('')
-
-	useEffect(() => {
-		const fetchData = async () => {
-			const data = await modifiedData(tvSeriesData)
-			setTvSeries(data)
-			setIsTvSeriesLoading(false)
-		}
-		fetchData()
-	}, [tvSeries, tvSeriesData])
-
-	const filterResults = (result: string) => {
-		if (result.trim() === '') {
-			setIsSearching(false)
-		} else {
-			setFilteredResults(result)
-			setIsSearching(true)
-		}
-	}
+export default function TvSeriesPage({tvSeriesData}: Props) {
+	const { isSearching, filteredResults, filterResults } = useSearch()
+	const { shows: tvSeries, isLoading: isTvSeriesLoading } = useDataFetcher(tvSeriesData)
 
 	return (
 		<>

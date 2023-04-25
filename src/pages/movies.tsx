@@ -1,5 +1,4 @@
-import { getMovies, modifiedData } from '../lib/data-utils'
-import { useEffect, useState } from 'react'
+import { getMovies } from '../lib/data-utils'
 import { CardsList } from '../components/ui/Card/CardsList'
 import { Heading } from '../components/ui/Text/Heading'
 import { Loader } from '../components/ui/Loader/Loader'
@@ -8,35 +7,16 @@ import { Searchbar } from '../components/ui/Searchbar/Searchbar'
 import { getSession } from 'next-auth/react'
 import { GetServerSidePropsContext } from 'next'
 import { DataType } from '../types/types'
+import { useSearch } from '../hooks/useSearch'
+import { useDataFetcher } from '../hooks/useDataFetcher'
 
 type Props = {
 	moviesData: DataType[]
 }
 
-export default function MoviesPage(props: Props) {
-	const { moviesData } = props
-	const [isMoviesLoading, setIsMoviesLoading] = useState(true)
-	const [movies, setMovies] = useState<DataType[]>([])
-	const [isSearching, setIsSearching] = useState(false)
-	const [filteredResults, setFilteredResults] = useState('')
-
-	useEffect(() => {
-		const fetchData = async () => {
-			const data = await modifiedData(moviesData)
-			setMovies(data)
-			setIsMoviesLoading(false)
-		}
-		fetchData()
-	}, [movies, moviesData])
-
-	const filterResults = (result: string) => {
-		if (result.trim() === '') {
-			setIsSearching(false)
-		} else {
-			setFilteredResults(result)
-			setIsSearching(true)
-		}
-	}
+export default function MoviesPage({ moviesData }: Props) {
+	const { isSearching, filteredResults, filterResults } = useSearch()
+	const { shows: movies, isLoading: isMoviesLoading } = useDataFetcher(moviesData)
 
 	return (
 		<>

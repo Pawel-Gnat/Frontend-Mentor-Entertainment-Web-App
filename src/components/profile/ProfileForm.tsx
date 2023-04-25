@@ -18,42 +18,42 @@ export const ProfileForm = () => {
 	const [notification, setNotification] = useState({ active: false, message: '', status: '' })
 
 	function handleNewPassword(value: string) {
-		setPasswordData({ ...passwordData, newPassword: value })
+		setPasswordData(prevState => ({ ...prevState, newPassword: value }))
 	}
 
 	function handleCurrentPassword(value: string) {
-		setPasswordData({ ...passwordData, currentPassword: value })
+		setPasswordData(prevState => ({ ...prevState, currentPassword: value }))
 	}
 
 	function handleChangePasswordErrors(error: NotificationType) {
 		if (error.field === 'currentPassword') {
-			setChangePasswordError({ ...changePasswordError, currentPassword: error.message })
+			setChangePasswordError(prevState => ({ ...prevState, currentPassword: error.message }))
 
 			setTimeout(() => {
-				setChangePasswordError({ ...changePasswordError, currentPassword: '' })
+				setChangePasswordError(prevState => ({ ...prevState, currentPassword: '' }))
 			}, 1500)
 		}
 
 		if (error.field === 'newPassword') {
-			setChangePasswordError({ ...changePasswordError, newPassword: error.message })
+			setChangePasswordError(prevState => ({ ...prevState, newPassword: error.message }))
 
 			setTimeout(() => {
-				setChangePasswordError({ ...changePasswordError, newPassword: '' })
+				setChangePasswordError(prevState => ({ ...prevState, newPassword: '' }))
 			}, 1500)
 		}
 	}
 
 	function clearInputs(result: NotificationType) {
 		if (result.status === 'success') {
-			setPasswordData({ newPassword: '', currentPassword: '', passwordChanged: false })
+			setPasswordData(prevState => ({ ...prevState, newPassword: '', currentPassword: '', passwordChanged: false }))
 			handleNotification(result)
 		}
 	}
 
 	const handleNotification = (result: NotificationType) => {
-		setNotification({ active: true, message: result.message, status: result.status })
+		setNotification(prevState => ({ ...prevState, active: true, message: result.message, status: result.status }))
 		setTimeout(() => {
-			setNotification({ active: false, message: '', status: '' })
+			setNotification(prevState => ({ ...prevState, active: false, message: '', status: '' }))
 		}, 3000)
 	}
 

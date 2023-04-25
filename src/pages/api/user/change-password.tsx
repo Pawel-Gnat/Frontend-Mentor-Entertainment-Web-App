@@ -37,7 +37,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 		return
 	}
 
-	if (userPassword === oldPassword) {
+	if (newPassword.trim().length === 0) {
+		res.status(403).json({ message: `New password can't be empty`, field: 'newPassword' })
+		client.close()
+		return
+	}
+
+	if (userPassword === newPassword) {
 		res.status(403).json({ message: 'Are you sure? :)', status: 'success' })
 		client.close()
 		return

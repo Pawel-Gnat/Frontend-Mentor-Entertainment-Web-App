@@ -29,74 +29,77 @@ async function createUser(email: string, password: string) {
 }
 
 export const AuthForm = () => {
-	const [isLogin, setIsLogin] = useState(true)
-	const [email, setEmail] = useState('')
-	const [emailError, setEmailError] = useState('')
-	const [password, setPassword] = useState('')
-	const [passwordError, setPasswordError] = useState('')
-	const [repeatedPassword, setRepeatedPassword] = useState('')
-	const [repeatedPasswordError, setRepeatedPasswordError] = useState('')
-	const [isLoading, setIsLoading] = useState(false)
+	const [formData, setFormData] = useState({
+		isLogin: true,
+		email: '',
+		emailError: '',
+		password: '',
+		passwordError: '',
+		repeatedPassword: '',
+		repeatedPasswordError: '',
+		isLoading: false,
+	})
+
 	const router = useRouter()
 
 	function HandleAuthMode() {
-		setIsLogin(prevState => !prevState)
+		setFormData(prevState => ({ ...prevState, isLogin: !prevState.isLogin }))
 	}
 
 	function handleEmail(value: string) {
-		setEmail(value)
+		setFormData(prevState => ({ ...prevState, email: value }))
 	}
 
 	function handlePassword(value: string) {
-		setPassword(value)
+		setFormData(prevState => ({ ...prevState, password: value }))
 	}
 
 	function handleRepeatedPassword(value: string) {
-		setRepeatedPassword(value)
+		setFormData(prevState => ({ ...prevState, repeatedPassword: value }))
 	}
 
 	function handleSignUpErrors(error: { field: string; message: string }) {
 		if (error.field === 'email') {
-			setEmailError(error.message)
+			setFormData(prevState => ({ ...prevState, emailError: error.message }))
 
 			setTimeout(() => {
-				setEmailError('')
+				setFormData(prevState => ({ ...prevState, emailError: '' }))
 			}, 1500)
 		}
 
 		if (error.field === 'password') {
-			setPasswordError(error.message)
+			setFormData(prevState => ({ ...prevState, passwordError: error.message }))
 
 			setTimeout(() => {
-				setPasswordError('')
+				setFormData(prevState => ({ ...prevState, passwordError: '' }))
 			}, 1500)
 		}
 	}
 
 	function handleLoginErrors(error: string) {
 		if (error === 'User not found') {
-			setEmailError(error)
+			setFormData(prevState => ({ ...prevState, emailError: error }))
 
 			setTimeout(() => {
-				setEmailError('')
+				setFormData(prevState => ({ ...prevState, emailError: '' }))
 			}, 1500)
 		}
 
 		if (error === 'Wrong password') {
-			setPasswordError(error)
+			setFormData(prevState => ({ ...prevState, passwordError: error }))
 
 			setTimeout(() => {
-				setPasswordError('')
+				setFormData(prevState => ({ ...prevState, passwordError: '' }))
 			}, 1500)
 		}
 	}
 
 	function comparePasswords() {
-		if (password !== repeatedPassword) {
-			setRepeatedPasswordError('Passwords are not the same')
+		if (formData.password !== formData.repeatedPassword) {
+			setFormData(prevState => ({ ...prevState, repeatedPasswordError: 'Passwords are not the same' }))
 
 			setTimeout(() => {
-				setRepeatedPasswordError('')
+				setFormData(prevState => ({ ...prevState, repeatedPasswordError: '' }))
 			}, 1500)
 
 			return false
@@ -113,9 +116,11 @@ export const AuthForm = () => {
 
 	async function submitHandler(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault()
+		const { email } = formData
+		const { password } = formData
 
-		if (isLogin) {
-			setIsLoading(true)
+		if (formData.isLogin) {
+			setFormData(prevState => ({ ...prevState, isLoading: true }))
 			const result = await signIn('credentials', { redirect: false, email, password })
 
 			if (result && !result.error) {
@@ -126,13 +131,13 @@ export const AuthForm = () => {
 				handleLoginErrors(result.error)
 			}
 
-			setIsLoading(false)
+			setFormData(prevState => ({ ...prevState, isLoading: false }))
 		} else {
 			if (!comparePasswords()) {
 				return
 			}
 
-			setIsLoading(true)
+			setFormData(prevState => ({ ...prevState, isLoading: true }))
 			const result = await createUser(email, password)
 
 			if (result.error) {
@@ -144,7 +149,7 @@ export const AuthForm = () => {
 				HandleAuthMode()
 			}
 
-			setIsLoading(false)
+			setFormData(prevState => ({ ...prevState, isLoading: false }))
 		}
 	}
 
@@ -159,7 +164,7 @@ export const AuthForm = () => {
 				aria-hidden='true'
 			/>
 			<div className='w-full max-w-[40rem] p-[3.2rem] bg-semiDarkBlue'>
-				<h1 className='font-light text-[3.2rem] text-pureWhite'>{isLogin ? 'Login' : 'Sign Up'}</h1>
+				<h1 className='font-light text-[3.2rem] text-pureWhite'>{formData.isLogin ? 'Login' : 'Sign Up'}</h1>
 				<div className='text-[1.5rem] font-light text-pureWhite mt-[4rem]'>
 					<form
 						className='flex flex-col gap-[2.4rem]'
@@ -168,41 +173,43 @@ export const AuthForm = () => {
 						<AuthInput
 							content='Your email'
 							placeholder='Email address'
-							value={email}
+							value={formData.email}
 							onChange={handleEmail}
-							error={emailError}
+							error={formData.emailError}
 						/>
 
 						<AuthInput
 							content='Your password'
 							placeholder='Password'
-							value={password}
+							value={formData.password}
 							onChange={handlePassword}
-							error={passwordError}
+							error={formData.passwordError}
 						/>
 
-						{isLogin ?? (
+						{formData.isLogin || (
 							<AuthInput
 								content='Repeat password'
 								placeholder='Repeat password'
-								value={repeatedPassword}
+								value={formData.repeatedPassword}
 								onChange={handleRepeatedPassword}
-								error={repeatedPasswordError}
+								error={formData.repeatedPasswordError}
 							/>
 						)}
 
 						<AuthButton
-							isLoading={isLoading}
-							content={isLogin ? 'Login to your account' : 'Create an account'}
+							isLoading={formData.isLoading}
+							content={formData.isLogin ? 'Login to your account' : 'Create an account'}
 						/>
 
 						<div className='m-auto'>
-							<span className='mr-[1rem]'>{isLogin ? `Don't have an account?` : 'Already have an account?'}</span>
+							<span className='mr-[1rem]'>
+								{formData.isLogin ? `Don't have an account?` : 'Already have an account?'}
+							</span>
 							<button
 								type='button'
 								className='text-lightRed'
 								onClick={HandleAuthMode}>
-								{isLogin ? 'Sign Up' : 'Login'}
+								{formData.isLogin ? 'Sign Up' : 'Login'}
 							</button>
 						</div>
 					</form>

@@ -1,5 +1,4 @@
-import { getRecommendedShows, getTrendingShows, modifiedData } from '../lib/data-utils'
-import { useEffect, useState } from 'react'
+import { getRecommendedShows, getTrendingShows } from '../lib/data-utils'
 import { Searchbar } from '../components/ui/Searchbar/Searchbar'
 import { CardsList } from '../components/ui/Card/CardsList'
 import { Heading } from '../components/ui/Text/Heading'
@@ -9,47 +8,18 @@ import { SearchResults } from '../components/ui/SearchResults/SearchResults'
 import { getSession } from 'next-auth/react'
 import { GetServerSidePropsContext } from 'next'
 import { DataType } from '../types/types'
+import { useSearch } from '../hooks/useSearch'
+import { useDataFetcher } from '../hooks/useDataFetcher'
 
 type Props = {
 	trendingShowsData: DataType[]
 	recommendedShowsData: DataType[]
 }
 
-export default function HomePage(props: Props) {
-	const { trendingShowsData, recommendedShowsData } = props
-	const [isTrendingShowsLoading, setIsTrendingShowsLoading] = useState(true)
-	const [isRecommendedShowsLoading, setIsRecommendedShowsLoading] = useState(true)
-	const [recommendedShows, setRecommendedShows] = useState<DataType[]>([])
-	const [trendingShows, setTrendingShows] = useState<DataType[]>([])
-	const [isSearching, setIsSearching] = useState(false)
-	const [filteredResults, setFilteredResults] = useState('')
-
-	useEffect(() => {
-		const fetchData = async () => {
-			const data = await modifiedData(trendingShowsData)
-			setTrendingShows(data)
-			setIsTrendingShowsLoading(false)
-		}
-		fetchData()
-	}, [trendingShowsData])
-
-	useEffect(() => {
-		const fetchData = async () => {
-			const data = await modifiedData(recommendedShowsData)
-			setRecommendedShows(data)
-			setIsRecommendedShowsLoading(false)
-		}
-		fetchData()
-	}, [recommendedShowsData])
-
-	const filterResults = (result: string) => {
-		if (result.trim() === '') {
-			setIsSearching(false)
-		} else {
-			setFilteredResults(result)
-			setIsSearching(true)
-		}
-	}
+export default function HomePage({ trendingShowsData, recommendedShowsData }: Props) {
+	const { isSearching, filteredResults, filterResults } = useSearch()
+	const { shows: trendingShows, isLoading: isTrendingShowsLoading } = useDataFetcher(trendingShowsData)
+	const { shows: recommendedShows, isLoading: isRecommendedShowsLoading } = useDataFetcher(recommendedShowsData)
 
 	return (
 		<>
