@@ -46,7 +46,7 @@ export default class TrendingCardsList extends Component<Props> {
 								rating={el.rating}
 								category={el.category}
 								year={el.year}
-								bookmarked={el.isBookmarked}
+								bookmarked={el.isBookmarked ?? false}
 							/>
 						</li>
 					))}
