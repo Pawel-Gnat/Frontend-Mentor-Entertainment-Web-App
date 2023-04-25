@@ -1,5 +1,5 @@
-import { AuthInput } from '../ui/Input/Input'
-import { AuthButton } from '../ui/Button/Button'
+import { AuthInput } from '../ui/Input/AuthInput'
+import { AuthButton } from '../ui/Button/AuthButton'
 import { useState } from 'react'
 import { Notification } from '../ui/Notification/Notification'
 import { NotificationType } from '../../types/types'

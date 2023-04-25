@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { useState } from 'react'
 import { CardHover } from './CardHover'
-import { BookmarkButton } from '../Button/Button'
+import { BookmarkButton } from '../Button/BookmarkButton'
 import { handleBookmarks } from '../../../lib/data-utils'
 import { Notification } from '../Notification/Notification'
 import { BookmarkLoader } from '../Loader/BookmarkLoader'

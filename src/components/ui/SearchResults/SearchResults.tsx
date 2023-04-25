@@ -2,7 +2,7 @@ import { DataType } from '../../../types/types'
 import { getBookmarkedShows, getfilteredData, modifiedData } from '../../../lib/data-utils'
 import { CardsList } from '../Card/CardsList'
 import { Loader } from '../Loader/Loader'
-import { Heading } from '../Text/Text'
+import { Heading } from '../Text/Heading'
 import { useEffect, useState } from 'react'
 
 export const SearchResults = (props: { result: string; bookmarks?: boolean }) => {

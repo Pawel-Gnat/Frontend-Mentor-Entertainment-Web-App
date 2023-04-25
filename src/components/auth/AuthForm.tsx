@@ -1,9 +1,9 @@
 import Image from 'next/image'
-import { AuthInput } from '../ui/Input/Input'
+import { AuthInput } from '../ui/Input/AuthInput'
 import { useState } from 'react'
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/router'
-import { AuthButton } from '../ui/Button/Button'
+import { AuthButton } from '../ui/Button/AuthButton'
 
 async function createUser(email: string, password: string) {
 	const response = await fetch('/api/auth/sign-up', {
@@ -181,7 +181,7 @@ export const AuthForm = () => {
 							error={passwordError}
 						/>
 
-						{isLogin ? null : (
+						{isLogin ?? (
 							<AuthInput
 								content='Repeat password'
 								placeholder='Repeat password'

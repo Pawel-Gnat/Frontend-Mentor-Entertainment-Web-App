@@ -1,4 +1,4 @@
-import { PlayButton } from '../Button/Button'
+import { PlayButton } from '../Button/PlayButton'
 import { NotificationType } from '../../../types/types'
 
 type Props = {

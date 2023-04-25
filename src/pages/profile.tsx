@@ -2,9 +2,9 @@ import { signOut } from 'next-auth/react'
 import { getSession } from 'next-auth/react'
 import { GetServerSidePropsContext } from 'next'
 import { useState } from 'react'
-import { AuthButton } from '../components/ui/Button/Button'
+import { AuthButton } from '../components/ui/Button/AuthButton'
 import { ProfileForm } from '@/components/profile/ProfileForm'
-import { Heading } from '../components/ui/Text/Text'
+import { Heading } from '../components/ui/Text/Heading'
 import { SessionType } from '../types/types'
 
 export default function ProfilePage(props: SessionType) {

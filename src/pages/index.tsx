@@ -2,7 +2,7 @@ import { getRecommendedShows, getTrendingShows, modifiedData } from '../lib/data
 import { useEffect, useState } from 'react'
 import { Searchbar } from '../components/ui/Searchbar/Searchbar'
 import { CardsList } from '../components/ui/Card/CardsList'
-import { Heading } from '../components/ui/Text/Text'
+import { Heading } from '../components/ui/Text/Heading'
 import TrendingCardsList from '../components/ui/Card/TrendingCardsList'
 import { Loader } from '../components/ui/Loader/Loader'
 import { SearchResults } from '../components/ui/SearchResults/SearchResults'

@@ -1,6 +1,6 @@
 import Image from 'next/image'
-import { useEffect, useRef, useState } from 'react'
-import { SearchInput } from '../Input/Input'
+import { useEffect, useState } from 'react'
+import { SearchInput } from '../Input/SearchInput'
 
 type Props = {
 	placeholder: string
