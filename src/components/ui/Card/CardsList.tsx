@@ -18,7 +18,7 @@ export const CardsList = (props: Props) => {
 						rating={el.rating}
 						category={el.category}
 						year={el.year}
-						bookmarked={el.isBookmarked}
+						bookmarked={el.isBookmarked ?? false}
 					/>
 				</li>
 			))}
