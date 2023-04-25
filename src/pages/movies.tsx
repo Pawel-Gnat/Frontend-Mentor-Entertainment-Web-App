@@ -7,35 +7,16 @@ import { SearchResults } from '../components/ui/SearchResults/SearchResults'
 import { Searchbar } from '../components/ui/Searchbar/Searchbar'
 import { getSession } from 'next-auth/react'
 import { GetServerSidePropsContext } from 'next'
-
-type Movies = {
-	title: string
-	thumbnail: {
-		trending?: {
-			small: string
-			large: string
-		}
-		regular: {
-			small: string
-			medium: string
-			large: string
-		}
-	}
-	year: number
-	category: string
-	rating: string
-	isTrending: boolean
-	isBookmarked: boolean
-}
+import { DataType } from '../types/types'
 
 type Props = {
-	moviesData: Movies[]
+	moviesData: DataType[]
 }
 
 export default function MoviesPage(props: Props) {
 	const { moviesData } = props
 	const [isMoviesLoading, setIsMoviesLoading] = useState(true)
-	const [movies, setMovies] = useState<Movies[]>([])
+	const [movies, setMovies] = useState<DataType[]>([])
 	const [isSearching, setIsSearching] = useState(false)
 	const [filteredResults, setFilteredResults] = useState('')
 

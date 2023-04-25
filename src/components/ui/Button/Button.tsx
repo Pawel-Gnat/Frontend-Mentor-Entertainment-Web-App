@@ -1,9 +1,10 @@
 import Image from 'next/image'
 import { useState } from 'react'
 import { AuthLoader } from '../Loader/AuthLoader'
+import { NotificationType } from '../../../types/types'
 
 type PlayButtonProps = {
-	onClick: (props: { message: string; status: string }) => void
+	onClick: (props: NotificationType) => void
 }
 
 export const PlayButton = (props: PlayButtonProps) => {

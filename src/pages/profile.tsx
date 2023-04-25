@@ -5,17 +5,9 @@ import { useState } from 'react'
 import { AuthButton } from '../components/ui/Button/Button'
 import { ProfileForm } from '@/components/profile/ProfileForm'
 import { Heading } from '../components/ui/Text/Text'
+import { SessionType } from '../types/types'
 
-type Session = {
-	session: {
-		user: {
-			email: string
-		}
-		expires: string
-	}
-}
-
-export default function ProfilePage(props: Session) {
+export default function ProfilePage(props: SessionType) {
 	const [isLoading, setIsLoading] = useState(false)
 	const userName = props.session.user.email.split('@')[0]
 

@@ -8,58 +8,19 @@ import { Loader } from '../components/ui/Loader/Loader'
 import { SearchResults } from '../components/ui/SearchResults/SearchResults'
 import { getSession } from 'next-auth/react'
 import { GetServerSidePropsContext } from 'next'
-
-type RecommendedShows = {
-	title: string
-	thumbnail: {
-		trending?: {
-			small: string
-			large: string
-		}
-		regular: {
-			small: string
-			medium: string
-			large: string
-		}
-	}
-	year: number
-	category: string
-	rating: string
-	isTrending: boolean
-	isBookmarked: boolean
-}
-
-type TrendingShows = {
-	title: string
-	thumbnail: {
-		trending?: {
-			small: string
-			large: string
-		}
-		regular: {
-			small: string
-			medium: string
-			large: string
-		}
-	}
-	year: number
-	category: string
-	rating: string
-	isTrending: boolean
-	isBookmarked: boolean
-}
+import { DataType } from '../types/types'
 
 type Props = {
-	trendingShowsData: TrendingShows[]
-	recommendedShowsData: RecommendedShows[]
+	trendingShowsData: DataType[]
+	recommendedShowsData: DataType[]
 }
 
 export default function HomePage(props: Props) {
 	const { trendingShowsData, recommendedShowsData } = props
 	const [isTrendingShowsLoading, setIsTrendingShowsLoading] = useState(true)
 	const [isRecommendedShowsLoading, setIsRecommendedShowsLoading] = useState(true)
-	const [recommendedShows, setRecommendedShows] = useState<RecommendedShows[]>([])
-	const [trendingShows, setTrendingShows] = useState<TrendingShows[]>([])
+	const [recommendedShows, setRecommendedShows] = useState<DataType[]>([])
+	const [trendingShows, setTrendingShows] = useState<DataType[]>([])
 	const [isSearching, setIsSearching] = useState(false)
 	const [filteredResults, setFilteredResults] = useState('')
 

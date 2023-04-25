@@ -1,36 +1,12 @@
+import { DataType } from '../../../types/types'
 import { getBookmarkedShows, getfilteredData, modifiedData } from '../../../lib/data-utils'
 import { CardsList } from '../Card/CardsList'
 import { Loader } from '../Loader/Loader'
 import { Heading } from '../Text/Text'
 import { useEffect, useState } from 'react'
 
-type Props = {
-	result: string
-	bookmarks?: boolean
-}
-
-type Shows = {
-	title: string
-	thumbnail: {
-		trending?: {
-			small: string
-			large: string
-		}
-		regular: {
-			small: string
-			medium: string
-			large: string
-		}
-	}
-	year: number
-	category: string
-	rating: string
-	isTrending: boolean
-	isBookmarked: boolean
-}
-
-export const SearchResults = (props: Props) => {
-	const [shows, setShows] = useState<Shows[]>([])
+export const SearchResults = (props: { result: string; bookmarks?: boolean }) => {
+	const [shows, setShows] = useState<DataType[]>([])
 	const [isSearching, setIsSearching] = useState(false)
 	const resultsNumber = shows.length
 	let resultText = ''

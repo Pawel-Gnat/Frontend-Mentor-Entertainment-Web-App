@@ -1,24 +1,5 @@
+import { DataType } from '../types/types'
 import data from '../pages/api/data.json'
-
-type Shows = {
-	title: string
-	thumbnail: {
-		trending?: {
-			small: string
-			large: string
-		}
-		regular: {
-			small: string
-			medium: string
-			large: string
-		}
-	}
-	year: number
-	category: string
-	rating: string
-	isTrending: boolean
-	isBookmarked?: boolean
-}[]
 
 export async function handleBookmarks(method: string = 'GET', title: string = '') {
 	if (title) {
@@ -60,7 +41,7 @@ export async function handleBookmarks(method: string = 'GET', title: string = ''
 	}
 }
 
-export const modifiedData = async (shows: Shows = data) => {
+export const modifiedData = async (shows: DataType[] = data) => {
 	const userBookmarkedShows = await handleBookmarks()
 
 	return shows.map(show => {
@@ -88,7 +69,7 @@ export const getTvSeries = () => {
 	return data.filter(el => el.category === 'TV Series')
 }
 
-export const getBookmarkedShows = async (data: Shows) => {
+export const getBookmarkedShows = async (data: DataType[]) => {
 	const bookmarkedShows = await modifiedData(data)
 	return bookmarkedShows.filter(el => el.isBookmarked === true)
 }

@@ -7,36 +7,17 @@ import { CardsList } from '../components/ui/Card/CardsList'
 import { Heading, Text } from '../components/ui/Text/Text'
 import { Loader } from '../components/ui/Loader/Loader'
 import { SearchResults } from '../components/ui/SearchResults/SearchResults'
-
-type Shows = {
-	title: string
-	thumbnail: {
-		trending?: {
-			small: string
-			large: string
-		}
-		regular: {
-			small: string
-			medium: string
-			large: string
-		}
-	}
-	year: number
-	category: string
-	rating: string
-	isTrending: boolean
-	isBookmarked: boolean
-}
+import { DataType } from '..//types/types'
 
 type Props = {
-	moviesData: Shows[]
-	tvSeriesData: Shows[]
+	moviesData: DataType[]
+	tvSeriesData: DataType[]
 }
 
 export default function BookmarkedPage(props: Props) {
 	const { moviesData, tvSeriesData } = props
-	const [bookmarkedMovies, setBookmarkedMovies] = useState<Shows[]>([])
-	const [bookmarkedTvSeries, setBookmarkedTvSeries] = useState<Shows[]>([])
+	const [bookmarkedMovies, setBookmarkedMovies] = useState<DataType[]>([])
+	const [bookmarkedTvSeries, setBookmarkedTvSeries] = useState<DataType[]>([])
 	const [isBookmarkedMoviesLoading, setIsBookmarkedMoviesLoading] = useState(true)
 	const [isBookmarkedTvSeriesLoading, setIsBookmarkedTvSeriesLoading] = useState(true)
 	const [isSearching, setIsSearching] = useState(false)
@@ -71,7 +52,7 @@ export default function BookmarkedPage(props: Props) {
 		}
 	}
 
-	const showsHandler = (shows: Shows[], title: string) => {
+	const showsHandler = (shows: DataType[], title: string) => {
 		if (shows.length === 0) {
 			return <Text content={`You don't have any bookmarked ${title}`} />
 		} else {

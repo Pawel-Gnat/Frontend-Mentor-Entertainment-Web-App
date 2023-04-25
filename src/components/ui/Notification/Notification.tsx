@@ -1,11 +1,7 @@
+import { NotificationType } from '../../../types/types'
 import { createPortal } from 'react-dom'
 
-type Message = {
-	message: string
-	status: string
-}
-
-export const Notification = (props: Message) => {
+export const Notification = (props: NotificationType) => {
 	const { message, status } = props
 
 	const backgroundColor = status === 'success' ? 'bg-greyishBlue' : 'bg-lightRed'

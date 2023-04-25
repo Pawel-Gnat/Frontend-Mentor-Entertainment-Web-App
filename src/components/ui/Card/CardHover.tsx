@@ -1,8 +1,9 @@
 import { PlayButton } from '../Button/Button'
+import { NotificationType } from '../../../types/types'
 
 type Props = {
 	hover: boolean
-	handlePlayButton: (notification: { message: string; status: string }) => void
+	handlePlayButton: (notification: NotificationType) => void
 }
 
 export const CardHover = (props: Props) => {

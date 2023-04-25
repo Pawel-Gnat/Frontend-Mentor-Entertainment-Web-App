@@ -3,27 +3,10 @@ import Slider from 'react-slick'
 import { TrendingCard } from './TrendingCard'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
+import { DataType } from '../../../types/types'
 
 type Props = {
-	cards: {
-		title: string
-		thumbnail: {
-			trending?: {
-				small: string
-				large: string
-			}
-			regular: {
-				small: string
-				medium: string
-				large: string
-			}
-		}
-		year: number
-		category: string
-		rating: string
-		isTrending: boolean
-		isBookmarked: boolean
-	}[]
+	cards: DataType[]
 }
 
 export default class TrendingCardsList extends Component<Props> {

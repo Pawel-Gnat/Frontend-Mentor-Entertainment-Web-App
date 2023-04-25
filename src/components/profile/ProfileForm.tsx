@@ -2,12 +2,7 @@ import { AuthInput } from '../ui/Input/Input'
 import { AuthButton } from '../ui/Button/Button'
 import { useState } from 'react'
 import { Notification } from '../ui/Notification/Notification'
-
-type Data = {
-	field: string
-	message: string
-	status: string
-}
+import { NotificationType } from '../../types/types'
 
 export const ProfileForm = () => {
 	const [isLoading, setIsLoading] = useState(false)
@@ -30,7 +25,7 @@ export const ProfileForm = () => {
 		setPasswordData({ ...passwordData, currentPassword: value })
 	}
 
-	function handleChangePasswordErrors(error: Data) {
+	function handleChangePasswordErrors(error: NotificationType) {
 		if (error.field === 'currentPassword') {
 			setChangePasswordError({ ...changePasswordError, currentPassword: error.message })
 
@@ -48,14 +43,14 @@ export const ProfileForm = () => {
 		}
 	}
 
-	function clearInputs(result: Data) {
+	function clearInputs(result: NotificationType) {
 		if (result.status === 'success') {
 			setPasswordData({ newPassword: '', currentPassword: '', passwordChanged: false })
 			handleNotification(result)
 		}
 	}
 
-	const handleNotification = (result: { message: string; status: string }) => {
+	const handleNotification = (result: NotificationType) => {
 		setNotification({ active: true, message: result.message, status: result.status })
 		setTimeout(() => {
 			setNotification({ active: false, message: '', status: '' })

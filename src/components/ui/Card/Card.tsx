@@ -5,26 +5,9 @@ import { BookmarkButton } from '../Button/Button'
 import { handleBookmarks } from '../../../lib/data-utils'
 import { Notification } from '../Notification/Notification'
 import { BookmarkLoader } from '../Loader/BookmarkLoader'
+import { NotificationType, CardsType } from '../../../types/types'
 
-type Props = {
-	title: string
-	year: number
-	category: string
-	rating: string
-	regular: {
-		small: string
-		medium: string
-		large: string
-	}
-	bookmarked: boolean
-}
-
-type NotificationType = {
-	message: string
-	status: string
-}
-
-export const Card = (props: Props) => {
+export const Card = (props: CardsType) => {
 	const { year, category, rating, title, regular, bookmarked } = props
 	const [isHovering, setIsHovering] = useState(false)
 	const [isBookmarked, setIsBookmarked] = useState(bookmarked)
