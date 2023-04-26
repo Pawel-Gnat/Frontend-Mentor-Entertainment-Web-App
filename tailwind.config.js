@@ -42,7 +42,7 @@ module.exports = {
 				},
 			},
 			animation: {
-				notification: 'show 0.5s ease-in forwards, hide 1s 1s ease-out forwards',
+				notification: 'show 0.5s ease-in forwards, hide 0.5s 1.5s ease-out forwards',
 			},
 		},
 	},
