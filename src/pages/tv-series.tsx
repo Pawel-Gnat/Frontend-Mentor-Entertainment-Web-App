@@ -1,4 +1,4 @@
-import { getTvSeries } from '../lib/data-utils'
+import { getTvSeries } from '../utils/dataUtils'
 import { CardsList } from '../components/ui/Card/CardsList'
 import { Heading } from '../components/ui/Text/Heading'
 import { Loader } from '../components/ui/Loader/Loader'
@@ -14,7 +14,7 @@ type Props = {
 	tvSeriesData: DataType[]
 }
 
-export default function TvSeriesPage({tvSeriesData}: Props) {
+export default function TvSeriesPage({ tvSeriesData }: Props) {
 	const { isSearching, filteredResults, filterResults } = useSearch()
 	const { shows: tvSeries, isLoading: isTvSeriesLoading } = useDataFetcher(tvSeriesData)
 

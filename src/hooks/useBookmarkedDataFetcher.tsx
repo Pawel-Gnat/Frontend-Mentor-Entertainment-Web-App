@@ -1,5 +1,5 @@
 import { DataType } from '../types/types'
-import { getBookmarkedShows, modifiedData } from '../lib/data-utils'
+import { getBookmarkedShows, modifiedData } from '../utils/dataUtils'
 import { useCallback, useEffect, useState } from 'react'
 
 export const useBookmarkedDataFetcher = (data: DataType[]) => {

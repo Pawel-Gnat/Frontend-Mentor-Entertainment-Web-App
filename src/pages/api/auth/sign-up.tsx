@@ -1,4 +1,4 @@
-import { connectToDatabase } from '../../../lib/database'
+import { connectToDatabase } from '../../../utils/databaseConnect'
 import { NextApiRequest, NextApiResponse } from 'next/types'
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {

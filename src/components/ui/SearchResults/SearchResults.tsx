@@ -1,5 +1,5 @@
 import { DataType } from '../../../types/types'
-import { getBookmarkedShows, getfilteredData, modifiedData } from '../../../lib/data-utils'
+import { getBookmarkedShows, getfilteredData, modifiedData } from '../../../utils/dataUtils'
 import { CardsList } from '../Card/CardsList'
 import { Loader } from '../Loader/Loader'
 import { Heading } from '../Text/Heading'

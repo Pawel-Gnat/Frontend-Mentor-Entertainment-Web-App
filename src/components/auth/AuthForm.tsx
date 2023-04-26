@@ -4,29 +4,7 @@ import { useState } from 'react'
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { AuthButton } from '../ui/Button/AuthButton'
-
-async function createUser(email: string, password: string) {
-	const response = await fetch('/api/auth/sign-up', {
-		method: 'POST',
-		body: JSON.stringify({ email, password }),
-		headers: {
-			'Content-Type': 'application/json',
-		},
-	})
-
-	const data = await response.json()
-
-	if (!response.ok) {
-		return {
-			error: {
-				message: data.message,
-				field: data.field,
-			},
-		}
-	}
-
-	return data
-}
+import { createUser } from '../../utils/createUser'
 
 export const AuthForm = () => {
 	const [formData, setFormData] = useState({
@@ -39,10 +17,9 @@ export const AuthForm = () => {
 		repeatedPasswordError: '',
 		isLoading: false,
 	})
-
 	const router = useRouter()
 
-	function HandleAuthMode() {
+	function handleAuthMode() {
 		setFormData(prevState => ({ ...prevState, isLogin: !prevState.isLogin }))
 	}
 
@@ -116,8 +93,7 @@ export const AuthForm = () => {
 
 	async function submitHandler(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault()
-		const { email } = formData
-		const { password } = formData
+		const { email, password } = formData
 
 		if (formData.isLogin) {
 			setFormData(prevState => ({ ...prevState, isLoading: true }))
@@ -146,7 +122,7 @@ export const AuthForm = () => {
 
 			if (!result.error) {
 				clearForm()
-				HandleAuthMode()
+				handleAuthMode()
 			}
 
 			setFormData(prevState => ({ ...prevState, isLoading: false }))
@@ -208,7 +184,7 @@ export const AuthForm = () => {
 							<button
 								type='button'
 								className='text-lightRed'
-								onClick={HandleAuthMode}>
+								onClick={handleAuthMode}>
 								{formData.isLogin ? 'Sign Up' : 'Login'}
 							</button>
 						</div>

@@ -1,5 +1,5 @@
 import { DataType } from '../types/types'
-import { modifiedData } from '../lib/data-utils'
+import { modifiedData } from '../utils/dataUtils'
 import { useCallback, useEffect, useState } from 'react'
 
 export const useDataFetcher = (data: DataType[]) => {

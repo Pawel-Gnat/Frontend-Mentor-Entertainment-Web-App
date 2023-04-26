@@ -3,6 +3,7 @@ import { AuthButton } from '../ui/Button/AuthButton'
 import { useState } from 'react'
 import { Notification } from '../ui/Notification/Notification'
 import { NotificationType } from '../../types/types'
+import { useNotification } from '../../hooks/useNotification'
 
 export const ProfileForm = () => {
 	const [isLoading, setIsLoading] = useState(false)
@@ -15,7 +16,7 @@ export const ProfileForm = () => {
 		currentPassword: '',
 		newPassword: '',
 	})
-	const [notification, setNotification] = useState({ active: false, message: '', status: '' })
+	const { notification, handleNotification } = useNotification()
 
 	function handleNewPassword(value: string) {
 		setPasswordData(prevState => ({ ...prevState, newPassword: value }))
@@ -48,13 +49,6 @@ export const ProfileForm = () => {
 			setPasswordData(prevState => ({ ...prevState, newPassword: '', currentPassword: '', passwordChanged: false }))
 			handleNotification(result)
 		}
-	}
-
-	const handleNotification = (result: NotificationType) => {
-		setNotification(prevState => ({ ...prevState, active: true, message: result.message, status: result.status }))
-		setTimeout(() => {
-			setNotification(prevState => ({ ...prevState, active: false, message: '', status: '' }))
-		}, 3000)
 	}
 
 	async function changePasswordHandler(passwords: { newPassword: string; currentPassword: string }) {

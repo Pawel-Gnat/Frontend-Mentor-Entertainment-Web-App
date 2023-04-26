@@ -2,17 +2,17 @@ import Image from 'next/image'
 import { useState } from 'react'
 import { CardHover } from './CardHover'
 import { BookmarkButton } from '../Button/BookmarkButton'
-import { handleBookmarks } from '../../../lib/data-utils'
 import { Notification } from '../Notification/Notification'
 import { BookmarkLoader } from '../Loader/BookmarkLoader'
 import { NotificationType, CardsType } from '../../../types/types'
+import { useNotification } from '../../../hooks/useNotification'
+import { useBookmark } from '../../../hooks/useBookmark'
 
 export const Card = (props: CardsType) => {
 	const { year, category, rating, title, regular, bookmarked } = props
 	const [isHovering, setIsHovering] = useState(false)
-	const [isBookmarked, setIsBookmarked] = useState(bookmarked)
-	const [isBookmarking, setIsBookmarking] = useState(false)
-	const [notification, setNotification] = useState({ active: false, message: '', status: '' })
+	const { notification, handleNotification } = useNotification()
+	const { isBookmarked, isBookmarking, handleBookmark } = useBookmark({ title, bookmarked, handleNotification })
 
 	const handleMouseOver = () => {
 		setIsHovering(true)
@@ -20,31 +20,6 @@ export const Card = (props: CardsType) => {
 
 	const handleMouseOut = () => {
 		setIsHovering(false)
-	}
-
-	const handleBookmark = async () => {
-		setIsBookmarking(true)
-		const userBookmarks = await handleBookmarks()
-
-		if (!userBookmarks) return
-
-		if (userBookmarks.includes(title)) {
-			const result = await handleBookmarks('DELETE', title)
-			handleNotification(result)
-		} else {
-			const result = await handleBookmarks('POST', title)
-			handleNotification(result)
-		}
-
-		setIsBookmarked(prev => !prev)
-		setIsBookmarking(false)
-	}
-
-	const handleNotification = (result: NotificationType) => {
-		setNotification({ active: true, message: result.message, status: result.status })
-		setTimeout(() => {
-			setNotification({ active: false, message: '', status: '' })
-		}, 2500)
 	}
 
 	const handlePlayButton = (notification: NotificationType) => {

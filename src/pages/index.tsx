@@ -1,4 +1,4 @@
-import { getRecommendedShows, getTrendingShows } from '../lib/data-utils'
+import { getRecommendedShows, getTrendingShows } from '../utils/dataUtils'
 import { Searchbar } from '../components/ui/Searchbar/Searchbar'
 import { CardsList } from '../components/ui/Card/CardsList'
 import { Heading } from '../components/ui/Text/Heading'

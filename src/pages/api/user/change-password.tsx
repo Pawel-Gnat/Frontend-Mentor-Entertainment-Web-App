@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { connectToDatabase } from '../../../lib/database'
+import { connectToDatabase } from '../../../utils/databaseConnect'
 import { Session, getServerSession } from 'next-auth'
 import { authOptions } from '../auth/[...nextauth]'
 

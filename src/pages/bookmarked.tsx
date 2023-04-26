@@ -1,7 +1,7 @@
 import { Searchbar } from '../components/ui/Searchbar/Searchbar'
 import { getSession } from 'next-auth/react'
 import { GetServerSidePropsContext } from 'next'
-import { getMovies, getTvSeries } from '../lib/data-utils'
+import { getMovies, getTvSeries } from '../utils/dataUtils'
 import { CardsList } from '../components/ui/Card/CardsList'
 import { Heading } from '../components/ui/Text/Heading'
 import { Text } from '../components/ui/Text/Text'

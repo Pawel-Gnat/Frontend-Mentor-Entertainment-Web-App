@@ -1,4 +1,4 @@
-import { getMovies } from '../lib/data-utils'
+import { getMovies } from '../utils/dataUtils'
 import { CardsList } from '../components/ui/Card/CardsList'
 import { Heading } from '../components/ui/Text/Heading'
 import { Loader } from '../components/ui/Loader/Loader'

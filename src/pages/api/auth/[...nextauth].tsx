@@ -1,4 +1,4 @@
-import { connectToDatabase } from '../../../lib/database'
+import { connectToDatabase } from '../../../utils/databaseConnect'
 import NextAuth from 'next-auth/next'
 import type { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'

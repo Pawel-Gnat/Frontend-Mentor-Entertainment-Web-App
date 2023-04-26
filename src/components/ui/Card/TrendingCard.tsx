@@ -2,17 +2,17 @@ import Image from 'next/image'
 import { useState } from 'react'
 import { CardHover } from './CardHover'
 import { BookmarkButton } from '../Button/BookmarkButton'
-import { handleBookmarks } from '../../../lib/data-utils'
 import { Notification } from '../Notification/Notification'
 import { BookmarkLoader } from '../Loader/BookmarkLoader'
 import { NotificationType, TrendingCardsType } from '../../../types/types'
+import { useNotification } from '../../../hooks/useNotification'
+import { useBookmark } from '../../../hooks/useBookmark'
 
 export const TrendingCard = (props: TrendingCardsType) => {
 	const { year, category, rating, title, trending, bookmarked } = props
 	const [isHovering, setIsHovering] = useState(false)
-	const [isBookmarked, setIsBookmarked] = useState(bookmarked)
-	const [isBookmarking, setIsBookmarking] = useState(false)
-	const [notification, setNotification] = useState({ active: false, message: '', status: '' })
+	const { notification, handleNotification } = useNotification()
+	const { isBookmarked, isBookmarking, handleBookmark } = useBookmark({ title, bookmarked, handleNotification })
 
 	const handleMouseOver = () => {
 		setIsHovering(true)
@@ -20,31 +20,6 @@ export const TrendingCard = (props: TrendingCardsType) => {
 
 	const handleMouseOut = () => {
 		setIsHovering(false)
-	}
-
-	const handleBookmark = async () => {
-		setIsBookmarking(true)
-		const userBookmarks = await handleBookmarks()
-
-		if (!userBookmarks) return
-
-		if (userBookmarks.includes(title)) {
-			const result = await handleBookmarks('DELETE', title)
-			handleNotification(result)
-		} else {
-			const result = await handleBookmarks('POST', title)
-			handleNotification(result)
-		}
-
-		setIsBookmarked(prev => !prev)
-		setIsBookmarking(false)
-	}
-
-	const handleNotification = (result: NotificationType) => {
-		setNotification({ active: true, message: result.message, status: result.status })
-		setTimeout(() => {
-			setNotification({ active: false, message: '', status: '' })
-		}, 2500)
 	}
 
 	const handlePlayButton = (notification: NotificationType) => {
@@ -57,7 +32,7 @@ export const TrendingCard = (props: TrendingCardsType) => {
 				className='relative w-full h-[14rem] rounded-[0.8rem] overflow-hidden md:h-[23rem] xl:h-[27rem]'
 				onMouseOver={handleMouseOver}
 				onMouseOut={handleMouseOut}>
-				{trending ? (
+				{trending && (
 					<>
 						<Image
 							src={trending.small}
@@ -72,7 +47,7 @@ export const TrendingCard = (props: TrendingCardsType) => {
 							alt={title}
 						/>
 					</>
-				) : null}
+				)}
 
 				<div className='absolute bottom-[1.6rem] left-[1.6rem]'>
 					<div className='flex gap-[0.8rem] text-trending-text font-light text-pureWhite mt-[0.8rem] opacity-75 '>
