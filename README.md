@@ -37,7 +37,7 @@ In the user panel, you can log out or change your password.
 ![](./screenshots/screenshot2.jpg)
 ![](./screenshots/screenshot3.jpg)
 ![](./screenshots/screenshot4.jpg)
-![](./screenshots/screenshot5.jpg)
+![|300](./screenshots/screenshot5.jpg)
 
 ### Technology stack
 
