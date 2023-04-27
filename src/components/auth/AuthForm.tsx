@@ -4,7 +4,8 @@ import { useState } from 'react'
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { AuthButton } from '../ui/Button/AuthButton'
-import { createUser } from '../../utils/createUser'
+import { useNotification } from '../../hooks/useNotification'
+import { Notification } from '../ui/Notification/Notification'
 
 export const AuthForm = () => {
 	const [formData, setFormData] = useState({
@@ -17,6 +18,7 @@ export const AuthForm = () => {
 		repeatedPasswordError: '',
 		isLoading: false,
 	})
+	const { notification, handleNotification } = useNotification()
 	const router = useRouter()
 
 	function handleAuthMode() {
@@ -91,6 +93,29 @@ export const AuthForm = () => {
 		handleRepeatedPassword('')
 	}
 
+	async function createUser(email: string, password: string) {
+		const response = await fetch('/api/auth/sign-up', {
+			method: 'POST',
+			body: JSON.stringify({ email, password }),
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		})
+
+		const data = await response.json()
+
+		if (!response.ok) {
+			return {
+				error: {
+					message: data.message,
+					field: data.field,
+				},
+			}
+		}
+
+		return data
+	}
+
 	async function submitHandler(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault()
 		const { email, password } = formData
@@ -115,7 +140,7 @@ export const AuthForm = () => {
 
 			setFormData(prevState => ({ ...prevState, isLoading: true }))
 			const result = await createUser(email, password)
-
+			console.log(result)
 			if (result.error) {
 				handleSignUpErrors(result.error)
 			}
@@ -123,6 +148,10 @@ export const AuthForm = () => {
 			if (!result.error) {
 				clearForm()
 				handleAuthMode()
+			}
+
+			if (result.status === 'success') {
+				handleNotification(result)
 			}
 
 			setFormData(prevState => ({ ...prevState, isLoading: false }))
@@ -191,6 +220,12 @@ export const AuthForm = () => {
 					</form>
 				</div>
 			</div>
+			{notification.active && (
+				<Notification
+					message={notification.message}
+					status={notification.status}
+				/>
+			)}
 		</section>
 	)
 }

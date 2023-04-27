@@ -42,7 +42,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 		bookmarks: [],
 	})
 
-	res.status(201).json({ message: 'Created user' })
+	res.status(201).json({ message: 'Created user', status: 'success' })
 	client.close()
 }
 
