@@ -1,5 +1,5 @@
 import { DataType } from '../types/types'
-import { modifiedData } from '../utils/dataUtils'
+import { modifyData } from '../utils/dataUtils'
 import { useCallback, useEffect, useState } from 'react'
 
 export const useDataFetcher = (data: DataType[]) => {
@@ -7,7 +7,7 @@ export const useDataFetcher = (data: DataType[]) => {
 	const [isLoading, setIsLoading] = useState(true)
 
 	const fetchData = useCallback(async () => {
-		const result = await modifiedData(data)
+		const result = await modifyData(data)
 		setShows(result)
 		setIsLoading(false)
 	}, [data])

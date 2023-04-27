@@ -2,7 +2,7 @@ import { DataType } from '../types/types'
 import data from '../pages/api/data.json'
 import { handleBookmarks } from './handleBookmarks'
 
-export const modifiedData = async (shows: DataType[] = data) => {
+export const modifyData = async (shows: DataType[] = data) => {
 	const userBookmarkedShows = await handleBookmarks()
 
 	return shows.map(show => {
@@ -31,7 +31,7 @@ export const getTvSeries = () => {
 }
 
 export const getBookmarkedShows = async (data: DataType[]) => {
-	const bookmarkedShows = await modifiedData(data)
+	const bookmarkedShows = await modifyData(data)
 	return bookmarkedShows.filter(el => el.isBookmarked === true)
 }
 

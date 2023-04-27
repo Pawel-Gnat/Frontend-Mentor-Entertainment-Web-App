@@ -1,5 +1,5 @@
 import { DataType } from '../../../types/types'
-import { getBookmarkedShows, getfilteredData, modifiedData } from '../../../utils/dataUtils'
+import { getBookmarkedShows, getfilteredData, modifyData } from '../../../utils/dataUtils'
 import { CardsList } from '../Card/CardsList'
 import { Loader } from '../Loader/Loader'
 import { Heading } from '../Text/Heading'
@@ -15,7 +15,7 @@ export const SearchResults = (props: { result: string; bookmarks?: boolean }) =>
 		const fetchData = async () => {
 			setIsSearching(true)
 			const data = getfilteredData(props.result)
-			const result = await modifiedData(data)
+			const result = await modifyData(data)
 
 			if (props.bookmarks) {
 				const bookmarkedResult = await getBookmarkedShows(result)

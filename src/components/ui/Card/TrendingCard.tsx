@@ -39,12 +39,14 @@ export const TrendingCard = (props: TrendingCardsType) => {
 							fill
 							className='w-full object-cover lg:hidden'
 							alt={title}
+							sizes='auto'
 						/>
 						<Image
 							src={trending.large}
 							fill
 							className='hidden w-full object-cover lg:inline-flex'
 							alt={title}
+							sizes='auto'
 						/>
 					</>
 				)}

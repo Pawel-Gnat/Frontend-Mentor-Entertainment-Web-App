@@ -1,5 +1,5 @@
 import { DataType } from '../types/types'
-import { getBookmarkedShows, modifiedData } from '../utils/dataUtils'
+import { getBookmarkedShows, modifyData } from '../utils/dataUtils'
 import { useCallback, useEffect, useState } from 'react'
 
 export const useBookmarkedDataFetcher = (data: DataType[]) => {
@@ -7,7 +7,7 @@ export const useBookmarkedDataFetcher = (data: DataType[]) => {
 	const [isLoading, setIsLoading] = useState(true)
 
 	const fetchData = useCallback(async () => {
-		const modifiedShows = await modifiedData(data)
+		const modifiedShows = await modifyData(data)
 		const bookmarkedData = await getBookmarkedShows(modifiedShows)
 		setShows(bookmarkedData)
 		setIsLoading(false)
