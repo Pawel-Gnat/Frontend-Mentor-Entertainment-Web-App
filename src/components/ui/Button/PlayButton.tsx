@@ -14,7 +14,7 @@ export const PlayButton = (props: PlayButtonProps) => {
 		<button
 			type='button'
 			aria-label='Play'
-			className='text-[1.8rem] font-light relative left-[50%] top-[50%] translate-y-[-50%] translate-x-[-50%] flex flex-row gap-[1.9rem] p-[0.9rem] pr-[2.4rem] rounded-full bg-pureWhite/25 text-pureWhite md:hover:bg-semiDarkBlue transition-colors'
+			className='text-[1.8rem] font-light relative left-[50%] top-[50%] translate-y-[-50%] translate-x-[-50%] flex flex-row gap-[1.9rem] p-[0.9rem] pr-[2.4rem] rounded-full bg-pureWhite/25 text-pureWhite active:bg-semiDarkBlue md:hover:bg-semiDarkBlue transition-colors'
 			onClick={playHandler}>
 			<Image
 				src='/assets/icons/icon-play.svg'
