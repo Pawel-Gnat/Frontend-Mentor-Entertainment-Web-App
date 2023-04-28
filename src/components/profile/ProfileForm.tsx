@@ -83,6 +83,7 @@ export const ProfileForm = () => {
 					value={passwordData.currentPassword}
 					onChange={handleCurrentPassword}
 					error={changePasswordError.currentPassword}
+					type='password'
 				/>
 
 				<AuthInput
@@ -91,6 +92,7 @@ export const ProfileForm = () => {
 					value={passwordData.newPassword}
 					onChange={handleNewPassword}
 					error={changePasswordError.newPassword}
+					type='password'
 				/>
 
 				<AuthButton

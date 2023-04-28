@@ -171,6 +171,7 @@ export const AuthForm = (props: { isLogin: boolean; loginHandler: () => void }) 
 				value={formData.password}
 				onChange={handlePassword}
 				error={formData.passwordError}
+				type='password'
 			/>
 
 			{props.isLogin || (
@@ -180,6 +181,7 @@ export const AuthForm = (props: { isLogin: boolean; loginHandler: () => void }) 
 					value={formData.repeatedPassword}
 					onChange={handleRepeatedPassword}
 					error={formData.repeatedPasswordError}
+					type='password'
 				/>
 			)}
 

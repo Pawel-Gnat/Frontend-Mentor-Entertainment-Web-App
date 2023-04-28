@@ -6,6 +6,7 @@ type AuthProps = {
 	value: string
 	onChange: (value: string) => void
 	error: string
+	type?: string
 }
 
 export const AuthInput = (props: AuthProps) => {
@@ -29,13 +30,13 @@ export const AuthInput = (props: AuthProps) => {
 	return (
 		<div className='relative'>
 			<label
-				htmlFor='searchbar'
+				htmlFor='auth'
 				className='visually-hidden'>
 				{props.content}
 			</label>
 			<input
-				name='searchbar'
-				type='text'
+				name='auth'
+				type={props.type === 'password' ? 'password' : 'text'}
 				className={`font-light w-full px-[1.6rem] pb-[1.8rem] border-b border-greyishBlue bg-inherit text-pureWhite caret-lightRed focus:border-pureWhite focus:outline-none placeholder:text-pureWhite placeholder:opacity-40 cursor-pointer ${errorClass}`}
 				placeholder={props.placeholder}
 				ref={inputRef}
