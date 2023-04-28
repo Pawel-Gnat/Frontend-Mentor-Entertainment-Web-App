@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import { AuthInput } from '../ui/Input/AuthInput'
 import { useState } from 'react'
 import { signIn } from 'next-auth/react'
@@ -7,9 +6,8 @@ import { AuthButton } from '../ui/Button/AuthButton'
 import { useNotification } from '../../hooks/useNotification'
 import { Notification } from '../ui/Notification/Notification'
 
-export const AuthForm = () => {
+export const AuthForm = (props: { isLogin: boolean; loginHandler: () => void }) => {
 	const [formData, setFormData] = useState({
-		isLogin: true,
 		email: '',
 		emailError: '',
 		password: '',
@@ -20,10 +18,6 @@ export const AuthForm = () => {
 	})
 	const { notification, handleNotification } = useNotification()
 	const router = useRouter()
-
-	function handleAuthMode() {
-		setFormData(prevState => ({ ...prevState, isLogin: !prevState.isLogin }))
-	}
 
 	function handleEmail(value: string) {
 		setFormData(prevState => ({ ...prevState, email: value }))
@@ -120,7 +114,7 @@ export const AuthForm = () => {
 		e.preventDefault()
 		const { email, password } = formData
 
-		if (formData.isLogin) {
+		if (props.isLogin) {
 			setFormData(prevState => ({ ...prevState, isLoading: true }))
 			const result = await signIn('credentials', { redirect: false, email, password })
 
@@ -147,7 +141,7 @@ export const AuthForm = () => {
 
 			if (!result.error) {
 				clearForm()
-				handleAuthMode()
+				props.loginHandler()
 			}
 
 			if (result.status === 'success') {
@@ -159,66 +153,49 @@ export const AuthForm = () => {
 	}
 
 	return (
-		<section className='flex flex-col items-center justify-center gap-[8rem] min-h-[90vh] pr-[1.6rem] md:pr-[2.4rem] xl:min-h-[90vh] xl:pr-[3.6rem] xl:mr-[13.6rem]'>
-			<Image
-				src='/assets/logo.svg'
-				width={25}
-				height={20}
-				className='w-[25px] h-[20px] md:h-[2.6rem] md:w-[3.2rem]'
-				alt=''
-				aria-hidden='true'
+		<form
+			className='flex flex-col gap-[2.4rem]'
+			autoComplete='off'
+			onSubmit={submitHandler}>
+			<AuthInput
+				content='Your email'
+				placeholder='Email address'
+				value={formData.email}
+				onChange={handleEmail}
+				error={formData.emailError}
 			/>
-			<div className='w-full max-w-[40rem] p-[3.2rem] bg-semiDarkBlue'>
-				<h1 className='font-light text-[3.2rem] text-pureWhite'>{formData.isLogin ? 'Login' : 'Sign Up'}</h1>
-				<div className='text-[1.5rem] font-light text-pureWhite mt-[4rem]'>
-					<form
-						className='flex flex-col gap-[2.4rem]'
-						autoComplete='off'
-						onSubmit={submitHandler}>
-						<AuthInput
-							content='Your email'
-							placeholder='Email address'
-							value={formData.email}
-							onChange={handleEmail}
-							error={formData.emailError}
-						/>
 
-						<AuthInput
-							content='Your password'
-							placeholder='Password'
-							value={formData.password}
-							onChange={handlePassword}
-							error={formData.passwordError}
-						/>
+			<AuthInput
+				content='Your password'
+				placeholder='Password'
+				value={formData.password}
+				onChange={handlePassword}
+				error={formData.passwordError}
+			/>
 
-						{formData.isLogin || (
-							<AuthInput
-								content='Repeat password'
-								placeholder='Repeat password'
-								value={formData.repeatedPassword}
-								onChange={handleRepeatedPassword}
-								error={formData.repeatedPasswordError}
-							/>
-						)}
+			{props.isLogin || (
+				<AuthInput
+					content='Repeat password'
+					placeholder='Repeat password'
+					value={formData.repeatedPassword}
+					onChange={handleRepeatedPassword}
+					error={formData.repeatedPasswordError}
+				/>
+			)}
 
-						<AuthButton
-							isLoading={formData.isLoading}
-							content={formData.isLogin ? 'Login to your account' : 'Create an account'}
-						/>
+			<AuthButton
+				isLoading={formData.isLoading}
+				content={props.isLogin ? 'Login to your account' : 'Create an account'}
+			/>
 
-						<div className='m-auto'>
-							<span className='mr-[1rem]'>
-								{formData.isLogin ? `Don't have an account?` : 'Already have an account?'}
-							</span>
-							<button
-								type='button'
-								className='text-lightRed'
-								onClick={handleAuthMode}>
-								{formData.isLogin ? 'Sign Up' : 'Login'}
-							</button>
-						</div>
-					</form>
-				</div>
+			<div className='m-auto'>
+				<span className='mr-[1rem]'>{props.isLogin ? `Don't have an account?` : 'Already have an account?'}</span>
+				<button
+					type='button'
+					className='text-lightRed'
+					onClick={props.loginHandler}>
+					{props.isLogin ? 'Sign Up' : 'Login'}
+				</button>
 			</div>
 			{notification.active && (
 				<Notification
@@ -226,6 +203,6 @@ export const AuthForm = () => {
 					status={notification.status}
 				/>
 			)}
-		</section>
+		</form>
 	)
 }
