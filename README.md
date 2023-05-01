@@ -9,6 +9,7 @@ This is a solution to the [Entertainment web app challenge on Frontend Mentor](h
   - [How to use](#how-to-use)
   - [Screenshot](#screenshot)
   - [Technology stack](#technology-stack)
+  - [Further improvements](#further-improvements)
 - [Author](#author)
 
 ## Overview
@@ -47,6 +48,10 @@ In the user panel, you can log out or change your password.
 - Tailwind
 - MongoDB
 - React-slick
+
+### Further improvements
+
+The application needs to add at least unit tests and the duration of video downloading and converting is too long, especially in the bookmarks section.
 
 ### Author
 
