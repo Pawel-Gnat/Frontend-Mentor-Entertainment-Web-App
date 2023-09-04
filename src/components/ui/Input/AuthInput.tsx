@@ -35,6 +35,7 @@ export const AuthInput = (props: AuthProps) => {
 				{props.content}
 			</label>
 			<input
+				id='auth'
 				name='auth'
 				type={props.type === 'password' ? 'password' : 'text'}
 				className={`font-light w-full px-[1.6rem] pb-[1.8rem] border-b border-greyishBlue bg-inherit text-pureWhite caret-lightRed focus:border-pureWhite focus:outline-none placeholder:text-pureWhite placeholder:opacity-40 cursor-pointer ${errorClass}`}

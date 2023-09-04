@@ -24,6 +24,7 @@ export const SearchInput = (props: SearchProps) => {
 				{props.content}
 			</label>
 			<input
+				id='searchbar'
 				name='searchbar'
 				type='text'
 				className='text-input font-light grow pb-[0.5rem] border-b border-transparent bg-inherit text-pureWhite caret-lightRed focus:border-greyishBlue focus:outline-none placeholder:text-pureWhite placeholder:opacity-40 cursor-pointer'
