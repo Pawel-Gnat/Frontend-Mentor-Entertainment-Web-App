@@ -134,7 +134,7 @@ export const AuthForm = (props: { isLogin: boolean; loginHandler: () => void }) 
 
 			setFormData(prevState => ({ ...prevState, isLoading: true }))
 			const result = await createUser(email, password)
-			console.log(result)
+
 			if (result.error) {
 				handleSignUpErrors(result.error)
 			}
